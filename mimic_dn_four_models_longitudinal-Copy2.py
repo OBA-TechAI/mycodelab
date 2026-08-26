@@ -51,10 +51,10 @@ IMPORTANT:
 # Run once in the Python (MIMIC-DN) Jupyter kernel.
 # ============================================================
 
-%pip install pyarrow pandas numpy scikit-learn
-%pip install "transformers<=4.30.0" accelerate
-%pip install pytorch-tabular
-%pip install git+https://github.com/RyanWangZf/transtab.git
+#%pip install pyarrow pandas numpy scikit-learn
+#%pip install "transformers<=4.30.0" accelerate
+#%pip install pytorch-tabular
+#%pip install git+https://github.com/RyanWangZf/transtab.git
 
 # %%
 # ============================================================
@@ -78,7 +78,7 @@ print("=" * 50)
 print("HPC GPU CHECK")
 print("=" * 50)
 
-print("PyTorch version:", torch._version_)
+print("PyTorch version:", torch.__version__)
 print("PyTorch CUDA version:", torch.version.cuda)
 print("CUDA available:", torch.cuda.is_available())
 
@@ -88,7 +88,7 @@ if torch.cuda.is_available():
 
 print("=" * 50)
 
-raise SystemExit("GPU check completed successfully.")
+#raise SystemExit("GPU check completed successfully.")
 
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader

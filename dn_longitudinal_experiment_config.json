@@ -1,0 +1,31 @@
+{
+  "target": "primary_icd_dn_label",
+  "common_patients": 24346,
+  "numeric_features": [
+    "prior_visit_count",
+    "prior_dx_count",
+    "prior_unique_dx_count",
+    "prior_icd9_count",
+    "prior_icd10_count",
+    "mean_codes_per_visit",
+    "max_codes_per_visit",
+    "history_span_days",
+    "last_prior_visit_gap_days"
+  ],
+  "binary_features": [
+    "prior_diabetes",
+    "prior_ckd",
+    "prior_hypertension",
+    "prior_heart_failure",
+    "prior_ischemic_heart_disease",
+    "prior_cerebrovascular",
+    "prior_obesity",
+    "prior_dyslipidemia",
+    "prior_diabetic_neuropathy"
+  ],
+  "categorical_features": [],
+  "seed": 42,
+  "device": "cuda",
+  "clinicalbert_max_len": 256,
+  "medbert_max_len": 256
+}
