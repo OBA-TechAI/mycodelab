@@ -1,0 +1,75 @@
+===== GPU ALLOCATION CHECK =====
+a30-002
+CUDA_VISIBLE_DEVICES=0
+Thu Aug 27 23:24:36 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 595.71.05              Driver Version: 595.71.05      CUDA Version: 13.2     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A30                     Off |   00000000:13:00.0 Off |                    0 |
+| N/A   29C    P0             24W /  165W |       0MiB /  24576MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+===============================
+Device: cuda
+
+Patients: 8907
+DN events: 688
+Censored: 8219
+
+Train: 6234
+Validation: 1336
+Test: 1337
+
+Vocabulary size: 6515
+Patients truncated to 256 codes: 32
+
+Trainable parameters: 4,032,588
+Epoch 01 | Loss 1.4978 | Val C-index 0.5284 | Val 365d AUROC 0.5281
+Epoch 02 | Loss 0.4685 | Val C-index 0.5137 | Val 365d AUROC 0.5148
+Epoch 03 | Loss 0.4670 | Val C-index 0.5976 | Val 365d AUROC 0.6015
+Epoch 04 | Loss 0.4667 | Val C-index 0.6325 | Val 365d AUROC 0.6381
+Epoch 05 | Loss 0.4581 | Val C-index 0.6657 | Val 365d AUROC 0.6728
+Epoch 06 | Loss 0.4460 | Val C-index 0.6576 | Val 365d AUROC 0.6640
+Epoch 07 | Loss 0.4387 | Val C-index 0.6566 | Val 365d AUROC 0.6628
+Epoch 08 | Loss 0.4350 | Val C-index 0.6686 | Val 365d AUROC 0.6756
+Epoch 09 | Loss 0.4302 | Val C-index 0.6697 | Val 365d AUROC 0.6767
+Epoch 10 | Loss 0.4202 | Val C-index 0.6708 | Val 365d AUROC 0.6779
+Epoch 11 | Loss 0.4139 | Val C-index 0.6728 | Val 365d AUROC 0.6801
+Epoch 12 | Loss 0.4003 | Val C-index 0.6749 | Val 365d AUROC 0.6820
+Epoch 13 | Loss 0.3905 | Val C-index 0.6450 | Val 365d AUROC 0.6521
+Epoch 14 | Loss 0.3787 | Val C-index 0.6549 | Val 365d AUROC 0.6612
+Epoch 15 | Loss 0.3675 | Val C-index 0.6725 | Val 365d AUROC 0.6796
+Epoch 16 | Loss 0.3507 | Val C-index 0.6522 | Val 365d AUROC 0.6587
+
+Early stopping at epoch 16
+
+Best validation C-index: 0.6749 at epoch 12
+
+
+============================================================
+TIME-TO-FIRST-DOCUMENTED-DN SURVIVAL RESULTS
+============================================================
+Model: BEHRT Survival Control 365d
+N_test: 1337
+Events_test: 103
+C_index: 0.690990
+AUROC_365d: 0.700115
+AUPRC_365d: 0.171744
+Best_Val_C_index: 0.674856
+Best_Epoch: 12
+
+Saved: survival_behrt_control_365d_results.csv
+Saved: survival_behrt_control_365d_predictions.csv
+Saved: survival_behrt_control_365d_best.pt

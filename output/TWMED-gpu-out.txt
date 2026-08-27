@@ -1,0 +1,78 @@
+===== GPU ALLOCATION CHECK =====
+a30-002
+CUDA_VISIBLE_DEVICES=0
+Fri Aug 28 01:12:13 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 595.71.05              Driver Version: 595.71.05      CUDA Version: 13.2     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A30                     Off |   00000000:13:00.0 Off |                    0 |
+| N/A   29C    P0             24W /  165W |       0MiB /  24576MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+===============================
+Device: cuda
+
+Patients: 8907
+DN positive: 688
+DN negative: 8219
+
+Train: 6234
+Validation: 1336
+Test: 1337
+
+Vocabulary size: 6515
+Patients truncated to 256 codes: 32
+
+Trainable parameters: 4,047,553
+Training positives: 482
+Training negatives: 5752
+Positive class weight: 11.9336
+Epoch 01 | Loss 1.2740 | Val AUROC 0.6583 | Val AUPRC 0.1327
+Epoch 02 | Loss 1.2098 | Val AUROC 0.6771 | Val AUPRC 0.1522
+Epoch 03 | Loss 1.1929 | Val AUROC 0.6676 | Val AUPRC 0.1399
+Epoch 04 | Loss 1.1308 | Val AUROC 0.6923 | Val AUPRC 0.1469
+Epoch 05 | Loss 1.1124 | Val AUROC 0.6881 | Val AUPRC 0.1685
+Epoch 06 | Loss 1.1369 | Val AUROC 0.6944 | Val AUPRC 0.1572
+Epoch 07 | Loss 1.0561 | Val AUROC 0.6797 | Val AUPRC 0.1591
+Epoch 08 | Loss 1.0292 | Val AUROC 0.6910 | Val AUPRC 0.1624
+Epoch 09 | Loss 1.0088 | Val AUROC 0.6876 | Val AUPRC 0.1643
+Epoch 10 | Loss 0.9849 | Val AUROC 0.6704 | Val AUPRC 0.1561
+
+Early stopping at epoch 10
+
+Best validation AUROC: 0.6944 at epoch 6
+Selected validation threshold: 0.42
+
+
+============================================================
+FINAL LEAKAGE-SAFE MED-BERT-STYLE CONTROL RESULTS
+============================================================
+Model: Time-Aware Med-BERT-style 365d
+N_test: 1337
+AUROC: 0.727628
+AUPRC: 0.185628
+Accuracy: 0.707554
+Precision: 0.145320
+Recall_Sensitivity: 0.572816
+Specificity: 0.718801
+F1: 0.231827
+Brier: 0.179453
+Threshold: 0.420000
+Best_Val_AUROC: 0.694431
+Best_Epoch: 6
+
+Saved: timeaware_medbert_365d_results.csv
+Saved: timeaware_medbert_365d_predictions.csv
+Saved: timeaware_medbert_365d_best.pt
