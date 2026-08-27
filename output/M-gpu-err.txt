@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/bigdata/users/22053430/mycodelab/mycodelab/DN_Project/mimic_dn_four_models_longitudinal-Copy1.py", line 61, in <module>
+    get_ipython().run_line_magic('pip', 'install pyarrow pandas numpy scikit-learn')
+    ^^^^^^^^^^^
+NameError: name 'get_ipython' is not defined

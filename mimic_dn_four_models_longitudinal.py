@@ -1057,9 +1057,7 @@ from transformers import (
     AutoModelForSequenceClassification,
 )
 
-CLINICALBERT_NAME = (
-    "emilyalsentzer/Bio_ClinicalBERT"
-)
+CLINICALBERT_NAME = "./Bio_ClinicalBERT"
 
 
 class ClinicalBERTDataset(Dataset):
@@ -1182,14 +1180,14 @@ def train_clinicalbert(
     tokenizer = (
         AutoTokenizer
         .from_pretrained(
-            CLINICALBERT_NAME
+            "./Bio_ClinicalBERT", local_files_only=True
         )
     )
 
     model = (
         AutoModelForSequenceClassification
         .from_pretrained(
-            CLINICALBERT_NAME,
+            "./Bio)ClinicalBERT", local_files_only=True,
             num_labels=2,
         )
         .to(DEVICE)

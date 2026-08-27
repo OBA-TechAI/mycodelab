@@ -1,0 +1,103 @@
+===== GPU ALLOCATION CHECK =====
+a30-002
+CUDA_VISIBLE_DEVICES=0
+Wed Aug 26 00:59:51 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 595.71.05              Driver Version: 595.71.05      CUDA Version: 13.2     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A30                     Off |   00000000:13:00.0 Off |                    0 |
+| N/A   29C    P0             24W /  165W |       0MiB /  24576MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+===============================
+==================================================
+HPC GPU CHECK
+==================================================
+PyTorch version: 1.12.0+cu113
+PyTorch CUDA version: 11.3
+CUDA available: True
+GPU name: NVIDIA A30
+GPU count: 1
+==================================================
+Device: cuda
+PyTorch version: 1.12.0+cu113
+CUDA available: True
+Longitudinal cohort: (24358, 6)
+Diagnosis sequence: (1189896, 7)
+Patient splits: (46312, 2)
+
+Cohort columns:
+['subject_id', 'index_hadm_id', 'index_admittime', 'primary_icd_dn_label', 'n_prior_visits', 'index_visit_number']
+
+DX columns:
+['subject_id', 'hadm_id', 'code_rank_within_visit', 'icd_code', 'icd_version', 'visit_number', 'admittime']
+
+COMMON FOUR-MODEL COHORT
+Patients: 24346
+
+Split sizes:
+train         16999
+validation     3674
+test           3673
+Name: split, dtype: int64
+
+DN distribution by split:
+            count  DN_positive   DN_rate
+split                                   
+test         3673          785  0.213722
+train       16999         3682  0.216601
+validation   3674          811  0.220740
+
+Diagnosis rows used: 1189896
+Patients with diagnosis history: 24346
+
+Tabular longitudinal dataset: (24346, 21)
+   subject_id  ...  last_prior_visit_gap_days
+0    10000635  ...                        0.0
+1    10000980  ...                      497.0
+2    10001843  ...                        0.0
+3    10001877  ...                        0.0
+4    10002013  ...                      515.0
+
+[5 rows x 21 columns]
+
+Train: (16999, 21)
+Validation: (3674, 21)
+Test: (3673, 21)
+
+Example ClinicalBERT input:
+The patient has 1 previous hospital visits and 3 prior diagnosis records. Prior documented conditions include diabetes, hypertension. Previous diagnosis sequence: Visit 1: ICD9_42789 ICD9_25000 ICD9_4019
+train         300
+validation    100
+test          100
+Name: split, dtype: int64
+
+Total patients: 500
+Med-BERT-style vocabulary size: 14000
+
+======================================================================
+TRAINING CLINICALBERT EHR-TO-TEXT
+======================================================================
+ClinicalBERT epoch 1: loss=1.0468 val_AUROC=0.5804
+
+FINAL MODEL COMPARISON
+                   Model    AUROC    AUPRC  Accuracy  Precision  Recall_Sensitivity  Specificity  F1    Brier  Threshold
+ClinicalBERT EHR-to-text 0.581101 0.221882      0.84        0.0                 0.0          1.0 0.0 0.156481       0.05
+
+Saved outputs:
+/bigdata/users/22053430/mycodelab/mycodelab/DN_Project/dn_longitudinal_four_model_comparison.csv
+/bigdata/users/22053430/mycodelab/mycodelab/DN_Project/dn_longitudinal_test_predictions.csv
+/bigdata/users/22053430/mycodelab/mycodelab/DN_Project/dn_longitudinal_tabular_features.parquet
+/bigdata/users/22053430/mycodelab/mycodelab/DN_Project/dn_longitudinal_experiment_config.json

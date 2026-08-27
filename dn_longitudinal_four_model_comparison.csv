@@ -1,0 +1,2 @@
+Model,AUROC,AUPRC,Accuracy,Precision,Recall_Sensitivity,Specificity,F1,Brier,Threshold
+ClinicalBERT EHR-to-text,0.5811011904761905,0.22188195593045884,0.84,0.0,0.0,1.0,0.0,0.1564811277643115,0.05
