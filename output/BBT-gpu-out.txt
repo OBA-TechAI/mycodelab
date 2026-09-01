@@ -1,0 +1,74 @@
+===== GPU ALLOCATION CHECK =====
+a30-002
+CUDA_VISIBLE_DEVICES=0
+Sat Aug 29 01:20:43 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 595.71.05              Driver Version: 595.71.05      CUDA Version: 13.2     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A30                     Off |   00000000:13:00.0 Off |                    0 |
+| N/A   29C    P0             24W /  165W |       0MiB /  24576MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+===============================
+Device: cuda
+
+Patients: 8907
+DN positive: 688
+DN negative: 8219
+
+Train: 6234
+Validation: 1336
+Test: 1337
+Patient texts created: 8907
+
+Example text:
+Patient prior diagnosis history. Visit 1 diagnoses: Acute on chronic diastolic heart failure; Other acute and subacute forms of ischemic heart disease, other; Hypertensive chronic kidney disease, unspecified, with chronic kidney disease stage I through stage IV, or unspecified; Other and unspecified hyperlipidemia; Diabetes mellitus without mention of complication, type II or unspecified type, not stated as uncontrolled; Long-term (current) use of insulin; Personal history of transient ischemic 
+
+BioBERT loaded from: ./BioBERT
+Trainable parameters: 108,311,041
+
+Training positives: 482
+Training negatives: 5752
+Positive class weight: 11.9336
+Epoch 01 | Loss 1.3128 | Val AUROC 0.7362 | Val AUPRC 0.2053
+Epoch 02 | Loss 1.2605 | Val AUROC 0.7280 | Val AUPRC 0.1737
+Epoch 03 | Loss 1.2263 | Val AUROC 0.7262 | Val AUPRC 0.1742
+
+Early stopping at epoch 3
+
+Best validation AUROC: 0.7362 at epoch 1
+Selected validation threshold: 0.585
+
+
+=================================================================
+LEAKAGE-SAFE BIOBERT EHR-TO-TEXT CONTROL RESULTS
+=================================================================
+Model: BioBERT Diagnosis-Text 365d Control
+N_test: 1337
+AUROC: 0.710941
+AUPRC: 0.207978
+Accuracy: 0.843680
+Precision: 0.198864
+Recall_Sensitivity: 0.339806
+Specificity: 0.885737
+F1: 0.250896
+Brier: 0.160906
+Threshold: 0.585000
+Best_Val_AUROC: 0.736187
+Best_Epoch: 1
+
+Saved: biobert_diagtext_365d_control_results.csv
+Saved: biobert_diagtext_365d_control_predictions.csv
+Saved: biobert_diagtext_365d_control_best.pt

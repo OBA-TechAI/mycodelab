@@ -1,0 +1,20 @@
+Device: cpu
+
+Patients: 8907
+DN positive: 688
+DN negative: 8219
+
+Train: 6234
+Validation: 1336
+Test: 1337
+Patient texts created: 8907
+
+Example text:
+Patient prior diagnosis history. Visit 1 diagnoses: Acute on chronic diastolic heart failure; Other acute and subacute forms of ischemic heart disease, other; Hypertensive chronic kidney disease, unspecified, with chronic kidney disease stage I through stage IV, or unspecified; Other and unspecified hyperlipidemia; Diabetes mellitus without mention of complication, type II or unspecified type, not stated as uncontrolled; Long-term (current) use of insulin; Personal history of transient ischemic attack (TIA), and cerebral infarction without residual deficits; Chronic airway obstruction, not els
+
+Clinical Longformer loaded from: ./Clinical-Longformer
+Trainable parameters: 148,660,225
+
+Training positives: 482
+Training negatives: 5752
+Positive class weight: 11.9336

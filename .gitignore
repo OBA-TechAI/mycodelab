@@ -219,3 +219,5 @@ __marimo__/
 Bio_ClinicalBERT/
 checkpoints/
 data/
+*.pt
+*.csv.gz
