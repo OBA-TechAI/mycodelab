@@ -4,7 +4,7 @@
 #SBATCH --output=output/S-gpu-out.txt
 #SBATCH --error=output/S-gpu-err.txt
 #
-#SBATCH --time=00:15:00
+#SBATCH --time=06:00:00
 #SBATCH --partition=ampere24
 #SBATCH --cpus-per-task=1
 
@@ -21,4 +21,4 @@ echo "CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"
 nvidia-smi
 echo "==============================="
 
-python3.10 -u mimic_dn_four_models_longitudinal-Copy2.py 
+python3.10 -u mimic_dn_expanded_models.py
