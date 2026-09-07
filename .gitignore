@@ -221,3 +221,32 @@ checkpoints/
 data/
 *.pt
 *.csv.gz
+
+# DN Project: local environments and downloaded models
+llama_env/
+Llama-3.2-3B-Instruct/
+BioBERT/
+Clinical-Longformer/
+
+# Restricted clinical data and patient-level outputs
+*.parquet
+*.csv.gz
+*_predictions.csv
+
+# Model weights and checkpoints
+*_adapter/
+*_ckpt/
+*.safetensors
+*.pth
+*.bin
+
+# HPC logs and temporary files
+*.out
+*.err
+output/
+*.log
+
+# Local credentials
+.env*
+hf_token*
+huggingface_token*

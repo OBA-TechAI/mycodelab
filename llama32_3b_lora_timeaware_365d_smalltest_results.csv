@@ -1,0 +1,2 @@
+Model,N_test,AUROC,AUPRC,Accuracy,Precision,Recall_Sensitivity,Specificity,F1,Brier,Threshold,Best_Val_AUROC,Best_Epoch
+Llama 3.2 3B Instruct LoRA Time-Aware Diagnosis-Text 365d,40,0.5225225225225225,0.09935064935064936,0.675,0.0,0.0,0.7297297297297297,0.0,0.2436355561068276,0.5949999999999998,0.8918918918918919,1

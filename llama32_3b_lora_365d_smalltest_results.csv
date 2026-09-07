@@ -1,0 +1,2 @@
+Model,N_test,AUROC,AUPRC,Accuracy,Precision,Recall_Sensitivity,Specificity,F1,Brier,Threshold,Best_Val_AUROC,Best_Epoch
+Llama 3.2 3B Instruct LoRA Diagnosis-Text 365d Control,40,0.6396396396396397,0.13373015873015873,0.825,0.0,0.0,0.8918918918918919,0.0,0.27159152195610065,0.6449999999999998,0.8288288288288288,1
