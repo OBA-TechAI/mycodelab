@@ -146,8 +146,9 @@ RUN_RANDOM_FOREST = False
 RUN_XGBOOST = False
 RUN_MLP = False
 RUN_LSTM = False
-RUN_GRU = True
-
+RUN_GRU = False
+RUN_BEHRT = False
+RUN_TIMEAWARE_BEHRT = True
 
 def seed_everything(seed=SEED):
     random.seed(seed)
@@ -341,19 +342,124 @@ if "admittime" in dx_work.columns:
         errors="coerce",
     )
 
-dx_work = dx_work.sort_values(
-    [
+# ============================================================
+# ADD AGE AT EACH VISIT FOR BEHRT
+# ============================================================
+
+patients_age = pd.read_csv(
+    DATA_DIR / "patients.csv.gz",
+    usecols=[
+        ID_COL,
+        "anchor_age",
+        "anchor_year",
+    ],
+)
+
+dx_work = dx_work.merge(
+    patients_age,
+    on=ID_COL,
+    how="left",
+)
+
+dx_work["visit_age"] = (
+    dx_work["anchor_age"]
+    + dx_work["admittime"].dt.year
+    - dx_work["anchor_year"]
+)
+
+dx_work["visit_age"] = (
+    dx_work["visit_age"]
+    .fillna(0)
+    .clip(lower=0, upper=120)
+    .astype(int)
+)
+
+# ===========================================================
+# EXPLICIT TIME-AWARE VARIABLES
+# ============================================================
+
+# Add index admission time for each patient
+dx_work = dx_work.merge(
+    model_cohort[
+        [
+            ID_COL,
+            "index_admittime",
+        ]
+    ],
+    on=ID_COL,
+    how="left",
+)
+
+dx_work["index_admittime"] = pd.to_datetime(
+    dx_work["index_admittime"],
+    errors="coerce",
+)
+
+# Time from each historical visit to the prediction/index visit
+dx_work["time_to_index_days"] = (
+    dx_work["index_admittime"]
+    - dx_work["admittime"]
+).dt.days
+
+dx_work["time_to_index_days"] = (
+    dx_work["time_to_index_days"]
+    .fillna(0)
+    .clip(lower=0)
+    .astype(int)
+)
+
+# Obtain one date for each prior hospital visit
+visit_dates = (
+    dx_work[
+        [
+            ID_COL,
+            "visit_number",
+            "admittime",
+        ]
+    ]
+    .drop_duplicates(
+        [
+            ID_COL,
+            "visit_number",
+        ]
+    )
+    .sort_values(
+        [
+            ID_COL,
+            "visit_number",
+        ]
+    )
+)
+
+# Actual elapsed time between consecutive hospital visits
+visit_dates["time_gap_days"] = (
+    visit_dates
+    .groupby(ID_COL)[
+        "admittime"
+    ]
+    .diff()
+    .dt.days
+    .fillna(0)
+    .clip(lower=0)
+    .astype(int)
+)
+
+dx_work = dx_work.merge(
+    visit_dates[
+        [
+            ID_COL,
+            "visit_number",
+            "time_gap_days",
+        ]
+    ],
+    on=[
         ID_COL,
         "visit_number",
-        "code_rank_within_visit",
-    ]
-).reset_index(drop=True)
-
-print("\nDiagnosis rows used:", len(dx_work))
-print(
-    "Patients with diagnosis history:",
-    dx_work[ID_COL].nunique(),
+    ],
+    how="left",
 )
+
+
 
 # %%
 # ============================================================
@@ -944,6 +1050,7 @@ def binary_metrics(
 
 patient_sequence = defaultdict(list)
 
+
 for row in dx_enriched[
     [
         ID_COL,
@@ -963,6 +1070,61 @@ for row in dx_enriched[
         )
     )
 
+# Separate sequence for BEHRT
+
+behrt_sequence = defaultdict(list)
+
+for row in dx_enriched[
+    [
+        ID_COL,
+        "visit_number",
+        "code_rank_within_visit",
+        "icd_token",
+        "visit_age",
+    ]
+].itertuples(index=False):
+
+    behrt_sequence[
+        int(row.subject_id)
+    ].append(
+        (
+            int(row.visit_number),
+            int(row.code_rank_within_visit),
+            str(row.icd_token),
+            int(row.visit_age),
+        )
+    )
+
+# ============================================================
+# SEPARATE TIME-AWARE SEQUENCE
+# ============================================================
+
+time_aware_sequence = defaultdict(list)
+
+for row in dx_enriched[
+    [
+        ID_COL,
+        "visit_number",
+        "code_rank_within_visit",
+        "icd_token",
+        "visit_age",
+        "time_gap_days",
+        "time_to_index_days",
+    ]
+].itertuples(index=False):
+
+    time_aware_sequence[
+        int(row.subject_id)
+    ].append(
+        (
+            int(row.visit_number),
+            int(row.code_rank_within_visit),
+            str(row.icd_token),
+            int(row.visit_age),
+            int(row.time_gap_days),
+            int(row.time_to_index_days),
+        )
+    )
 
 def prior_codes_as_text(
     subject_id,
@@ -994,6 +1156,7 @@ def prior_codes_as_text(
         pieces.append(token)
 
     return " ".join(pieces)
+
 
 # %%
 # ============================================================
@@ -4555,6 +4718,1601 @@ def train_gru(
         p_test,
     )
 
+# ============================================================
+# BEHRT-STYLE DATASET
+# ============================================================
+
+class BEHRTDataset(Dataset):
+
+    def __init__(
+        self,
+        patients,
+        sequence_dict,
+        vocab,
+        max_len=256,
+    ):
+
+        self.patients = patients.reset_index(
+            drop=True
+        )
+
+        self.sequence_dict = sequence_dict
+        self.vocab = vocab
+        self.max_len = max_len
+
+    def __len__(self):
+
+        return len(
+            self.patients
+        )
+
+    def __getitem__(
+        self,
+        idx,
+    ):
+
+        row = self.patients.iloc[idx]
+
+        sid = int(
+            row[ID_COL]
+        )
+
+        seq = self.sequence_dict.get(
+            sid,
+            [],
+        )
+
+        # Keep most recent events
+        seq = seq[
+            -self.max_len:
+        ]
+
+        if len(seq) == 0:
+
+            token_ids = [
+                self.vocab[UNK]
+            ]
+
+            age_ids = [0]
+            segment_ids = [0]
+
+        else:
+
+            visits = sorted(
+                set(
+                    visit_no
+                    for (
+                        visit_no,
+                        _,
+                        _,
+                        _,
+                    ) in seq
+                )
+            )
+
+            visit_map = {
+                visit_no: i
+                for i, visit_no
+                in enumerate(visits)
+            }
+
+            token_ids = []
+            age_ids = []
+            segment_ids = []
+
+            for (
+                visit_no,
+                rank,
+                token,
+                age,
+            ) in seq:
+
+                token_ids.append(
+                    self.vocab.get(
+                        token,
+                        self.vocab[UNK],
+                    )
+                )
+
+                age_ids.append(
+                    min(
+                        max(
+                            int(age),
+                            0,
+                        ),
+                        120,
+                    )
+                )
+
+                # Alternating visit segment,
+                # consistent with BEHRT-style
+                # visit representation.
+                segment_ids.append(
+                    visit_map[
+                        visit_no
+                    ] % 2
+                )
+
+        length = len(
+            token_ids
+        )
+
+        pad_len = (
+            self.max_len
+            - length
+        )
+
+        token_ids += (
+            [0] * pad_len
+        )
+
+        age_ids += (
+            [0] * pad_len
+        )
+
+        segment_ids += (
+            [0] * pad_len
+        )
+
+        attention_mask = (
+            [1] * length
+            + [0] * pad_len
+        )
+
+        position_ids = list(
+            range(
+                self.max_len
+            )
+        )
+
+        return {
+
+            "input_ids":
+                torch.tensor(
+                    token_ids,
+                    dtype=torch.long,
+                ),
+
+            "age_ids":
+                torch.tensor(
+                    age_ids,
+                    dtype=torch.long,
+                ),
+
+            "segment_ids":
+                torch.tensor(
+                    segment_ids,
+                    dtype=torch.long,
+                ),
+
+            "position_ids":
+                torch.tensor(
+                    position_ids,
+                    dtype=torch.long,
+                ),
+
+            "attention_mask":
+                torch.tensor(
+                    attention_mask,
+                    dtype=torch.bool,
+                ),
+
+            "labels":
+                torch.tensor(
+                    int(
+                        row[
+                            TARGET_COL
+                        ]
+                    ),
+                    dtype=torch.long,
+                ),
+        }
+
+# ============================================================
+# TIME-AWARE BEHRT DATASET
+# ============================================================
+
+def temporal_bucket(days):
+    """
+    Convert elapsed days into discrete temporal intervals.
+
+    0 = same day / no previous gap
+    1 = 1-7 days
+    2 = 8-30 days
+    3 = 31-90 days
+    4 = 91-180 days
+    5 = 181-365 days
+    6 = 366-730 days
+    7 = 731-1825 days
+    8 = >1825 days
+    """
+
+    days = max(int(days), 0)
+
+    if days == 0:
+        return 0
+    elif days <= 7:
+        return 1
+    elif days <= 30:
+        return 2
+    elif days <= 90:
+        return 3
+    elif days <= 180:
+        return 4
+    elif days <= 365:
+        return 5
+    elif days <= 730:
+        return 6
+    elif days <= 1825:
+        return 7
+    else:
+        return 8
+
+
+class TimeAwareBEHRTDataset(Dataset):
+
+    def __init__(
+        self,
+        patients,
+        sequence_dict,
+        vocab,
+        max_len=256,
+    ):
+
+        self.patients = patients.reset_index(
+            drop=True
+        )
+
+        self.sequence_dict = sequence_dict
+        self.vocab = vocab
+        self.max_len = max_len
+
+    def __len__(self):
+
+        return len(
+            self.patients
+        )
+
+    def __getitem__(
+        self,
+        idx,
+    ):
+
+        row = self.patients.iloc[idx]
+
+        sid = int(
+            row[ID_COL]
+        )
+
+        seq = self.sequence_dict.get(
+            sid,
+            [],
+        )
+
+        # Keep the most recent events
+        seq = seq[
+            -self.max_len:
+        ]
+
+        if len(seq) == 0:
+
+            token_ids = [
+                self.vocab[UNK]
+            ]
+
+            age_ids = [0]
+            segment_ids = [0]
+            gap_ids = [0]
+            time_to_index_ids = [0]
+
+        else:
+
+            visits = sorted(
+                set(
+                    visit_no
+                    for (
+                        visit_no,
+                        _,
+                        _,
+                        _,
+                        _,
+                        _,
+                    ) in seq
+                )
+            )
+
+            visit_map = {
+                visit_no: i
+                for i, visit_no
+                in enumerate(visits)
+            }
+
+            token_ids = []
+            age_ids = []
+            segment_ids = []
+            gap_ids = []
+            time_to_index_ids = []
+
+            for (
+                visit_no,
+                rank,
+                token,
+                age,
+                time_gap_days,
+                time_to_index_days,
+            ) in seq:
+
+                token_ids.append(
+                    self.vocab.get(
+                        token,
+                        self.vocab[UNK],
+                    )
+                )
+
+                age_ids.append(
+                    min(
+                        max(
+                            int(age),
+                            0,
+                        ),
+                        120,
+                    )
+                )
+
+                segment_ids.append(
+                    visit_map[
+                        visit_no
+                    ] % 2
+                )
+
+                gap_ids.append(
+                    temporal_bucket(
+                        time_gap_days
+                    )
+                )
+
+                time_to_index_ids.append(
+                    temporal_bucket(
+                        time_to_index_days
+                    )
+                )
+
+        length = len(
+            token_ids
+        )
+
+        pad_len = (
+            self.max_len
+            - length
+        )
+
+        token_ids += [0] * pad_len
+        age_ids += [0] * pad_len
+        segment_ids += [0] * pad_len
+        gap_ids += [0] * pad_len
+        time_to_index_ids += [0] * pad_len
+
+        attention_mask = (
+            [1] * length
+            + [0] * pad_len
+        )
+
+        position_ids = list(
+            range(
+                self.max_len
+            )
+        )
+
+        return {
+
+            "input_ids":
+                torch.tensor(
+                    token_ids,
+                    dtype=torch.long,
+                ),
+
+            "age_ids":
+                torch.tensor(
+                    age_ids,
+                    dtype=torch.long,
+                ),
+
+            "segment_ids":
+                torch.tensor(
+                    segment_ids,
+                    dtype=torch.long,
+                ),
+
+            "position_ids":
+                torch.tensor(
+                    position_ids,
+                    dtype=torch.long,
+                ),
+
+            "gap_ids":
+                torch.tensor(
+                    gap_ids,
+                    dtype=torch.long,
+                ),
+
+            "time_to_index_ids":
+                torch.tensor(
+                    time_to_index_ids,
+                    dtype=torch.long,
+                ),
+
+            "attention_mask":
+                torch.tensor(
+                    attention_mask,
+                    dtype=torch.bool,
+                ),
+
+            "labels":
+                torch.tensor(
+                    int(
+                        row[
+                            TARGET_COL
+                        ]
+                    ),
+                    dtype=torch.long,
+                ),
+        }
+
+# ============================================================
+# BEHRT-STYLE MODEL
+# ============================================================
+
+class BEHRTStyleClassifier(nn.Module):
+
+    def __init__(
+        self,
+        vocab_size,
+        max_len=256,
+        hidden_dim=192,
+        n_heads=6,
+        n_layers=6,
+        dropout=0.1,
+    ):
+
+        super().__init__()
+
+        # Diagnosis embedding
+        self.code_embedding = nn.Embedding(
+            vocab_size,
+            hidden_dim,
+            padding_idx=0,
+        )
+
+        # Age embedding
+        self.age_embedding = nn.Embedding(
+            121,
+            hidden_dim,
+        )
+
+        # Visit segment embedding
+        self.segment_embedding = nn.Embedding(
+            2,
+            hidden_dim,
+        )
+
+        # Positional embedding
+        self.position_embedding = nn.Embedding(
+            max_len,
+            hidden_dim,
+        )
+
+        self.embedding_norm = nn.LayerNorm(
+            hidden_dim
+        )
+
+        self.embedding_dropout = nn.Dropout(
+            dropout
+        )
+
+        encoder_layer = (
+            nn.TransformerEncoderLayer(
+                d_model=hidden_dim,
+                nhead=n_heads,
+                dim_feedforward=(
+                    hidden_dim * 4
+                ),
+                dropout=dropout,
+                activation="gelu",
+                batch_first=True,
+            )
+        )
+
+        self.transformer = (
+            nn.TransformerEncoder(
+                encoder_layer,
+                num_layers=n_layers,
+            )
+        )
+
+        self.output_norm = nn.LayerNorm(
+            hidden_dim
+        )
+
+        self.classifier = nn.Linear(
+            hidden_dim,
+            2,
+        )
+
+    def forward(
+        self,
+        input_ids,
+        age_ids,
+        segment_ids,
+        position_ids,
+        attention_mask,
+    ):
+
+        x = (
+            self.code_embedding(
+                input_ids
+            )
+            + self.age_embedding(
+                age_ids
+            )
+            + self.segment_embedding(
+                segment_ids
+            )
+            + self.position_embedding(
+                position_ids
+            )
+        )
+
+        x = self.embedding_norm(
+            x
+        )
+
+        x = self.embedding_dropout(
+            x
+        )
+
+        padding_mask = (
+            ~attention_mask
+        )
+
+        x = self.transformer(
+            x,
+            src_key_padding_mask=(
+                padding_mask
+            ),
+        )
+
+        # Masked mean pooling
+        mask = (
+            attention_mask
+            .unsqueeze(-1)
+            .float()
+        )
+
+        pooled = (
+            (x * mask).sum(dim=1)
+            /
+            mask.sum(dim=1).clamp(
+                min=1.0
+            )
+        )
+
+        pooled = self.output_norm(
+            pooled
+        )
+
+        logits = self.classifier(
+            pooled
+        )
+
+        return logits
+
+# ============================================================
+# TIME-AWARE BEHRT-STYLE MODEL
+# ============================================================
+
+class TimeAwareBEHRTClassifier(nn.Module):
+
+    def __init__(
+        self,
+        vocab_size,
+        max_len=256,
+        hidden_dim=192,
+        n_heads=6,
+        n_layers=6,
+        dropout=0.1,
+        n_time_buckets=9,
+    ):
+        super().__init__()
+
+        self.code_embedding = nn.Embedding(
+            vocab_size,
+            hidden_dim,
+            padding_idx=0,
+        )
+
+        self.age_embedding = nn.Embedding(
+            121,
+            hidden_dim,
+        )
+
+        self.segment_embedding = nn.Embedding(
+            2,
+            hidden_dim,
+        )
+
+        self.position_embedding = nn.Embedding(
+            max_len,
+            hidden_dim,
+        )
+
+        # Explicit inter-visit time gap
+        self.time_gap_embedding = nn.Embedding(
+            n_time_buckets,
+            hidden_dim,
+        )
+
+        # Explicit time from historical event to index admission
+        self.time_to_index_embedding = nn.Embedding(
+            n_time_buckets,
+            hidden_dim,
+        )
+
+        self.embedding_norm = nn.LayerNorm(
+            hidden_dim
+        )
+
+        self.embedding_dropout = nn.Dropout(
+            dropout
+        )
+
+        encoder_layer = nn.TransformerEncoderLayer(
+            d_model=hidden_dim,
+            nhead=n_heads,
+            dim_feedforward=hidden_dim * 4,
+            dropout=dropout,
+            activation="gelu",
+            batch_first=True,
+        )
+
+        self.transformer = nn.TransformerEncoder(
+            encoder_layer,
+            num_layers=n_layers,
+        )
+
+        self.output_norm = nn.LayerNorm(
+            hidden_dim
+        )
+
+        self.classifier = nn.Linear(
+            hidden_dim,
+            2,
+        )
+
+    def forward(
+        self,
+        input_ids,
+        age_ids,
+        segment_ids,
+        position_ids,
+        gap_ids,
+        time_to_index_ids,
+        attention_mask,
+    ):
+
+        x = (
+            self.code_embedding(input_ids)
+            + self.age_embedding(age_ids)
+            + self.segment_embedding(segment_ids)
+            + self.position_embedding(position_ids)
+            + self.time_gap_embedding(gap_ids)
+            + self.time_to_index_embedding(
+                time_to_index_ids
+            )
+        )
+
+        x = self.embedding_norm(x)
+        x = self.embedding_dropout(x)
+
+        padding_mask = ~attention_mask
+
+        x = self.transformer(
+            x,
+            src_key_padding_mask=padding_mask,
+        )
+
+        mask = (
+            attention_mask
+            .unsqueeze(-1)
+            .float()
+        )
+
+        pooled = (
+            (x * mask).sum(dim=1)
+            /
+            mask.sum(dim=1).clamp(min=1.0)
+        )
+
+        pooled = self.output_norm(pooled)
+
+        return self.classifier(pooled)
+
+# ============================================================
+# TIME-AWARE BEHRT DATASET
+# ============================================================
+
+def temporal_bucket(days):
+    """
+    Convert elapsed days into discrete temporal intervals.
+
+    0 = same day / no previous gap
+    1 = 1-7 days
+    2 = 8-30 days
+    3 = 31-90 days
+    4 = 91-180 days
+    5 = 181-365 days
+    6 = 366-730 days
+    7 = 731-1825 days
+    8 = >1825 days
+    """
+
+    days = max(int(days), 0)
+
+    if days == 0:
+        return 0
+    elif days <= 7:
+        return 1
+    elif days <= 30:
+        return 2
+    elif days <= 90:
+        return 3
+    elif days <= 180:
+        return 4
+    elif days <= 365:
+        return 5
+    elif days <= 730:
+        return 6
+    elif days <= 1825:
+        return 7
+    else:
+        return 8
+
+
+class TimeAwareBEHRTDataset(Dataset):
+
+    def __init__(
+        self,
+        patients,
+        sequence_dict,
+        vocab,
+        max_len=256,
+    ):
+
+        self.patients = patients.reset_index(
+            drop=True
+        )
+
+        self.sequence_dict = sequence_dict
+        self.vocab = vocab
+        self.max_len = max_len
+
+    def __len__(self):
+
+        return len(
+            self.patients
+        )
+
+    def __getitem__(
+        self,
+        idx,
+    ):
+
+        row = self.patients.iloc[idx]
+
+        sid = int(
+            row[ID_COL]
+        )
+
+        seq = self.sequence_dict.get(
+            sid,
+            [],
+        )
+
+        # Keep the most recent events
+        seq = seq[
+            -self.max_len:
+        ]
+
+        if len(seq) == 0:
+
+            token_ids = [
+                self.vocab[UNK]
+            ]
+
+            age_ids = [0]
+            segment_ids = [0]
+            gap_ids = [0]
+            time_to_index_ids = [0]
+
+        else:
+
+            visits = sorted(
+                set(
+                    visit_no
+                    for (
+                        visit_no,
+                        _,
+                        _,
+                        _,
+                        _,
+                        _,
+                    ) in seq
+                )
+            )
+
+            visit_map = {
+                visit_no: i
+                for i, visit_no
+                in enumerate(visits)
+            }
+
+            token_ids = []
+            age_ids = []
+            segment_ids = []
+            gap_ids = []
+            time_to_index_ids = []
+
+            for (
+                visit_no,
+                rank,
+                token,
+                age,
+                time_gap_days,
+                time_to_index_days,
+            ) in seq:
+
+                token_ids.append(
+                    self.vocab.get(
+                        token,
+                        self.vocab[UNK],
+                    )
+                )
+
+                age_ids.append(
+                    min(
+                        max(
+                            int(age),
+                            0,
+                        ),
+                        120,
+                    )
+                )
+
+                segment_ids.append(
+                    visit_map[
+                        visit_no
+                    ] % 2
+                )
+
+                gap_ids.append(
+                    temporal_bucket(
+                        time_gap_days
+                    )
+                )
+
+                time_to_index_ids.append(
+                    temporal_bucket(
+                        time_to_index_days
+                    )
+                )
+
+        length = len(
+            token_ids
+        )
+
+        pad_len = (
+            self.max_len
+            - length
+        )
+
+        token_ids += [0] * pad_len
+        age_ids += [0] * pad_len
+        segment_ids += [0] * pad_len
+        gap_ids += [0] * pad_len
+        time_to_index_ids += [0] * pad_len
+
+        attention_mask = (
+            [1] * length
+            + [0] * pad_len
+        )
+
+        position_ids = list(
+            range(
+                self.max_len
+            )
+        )
+
+        return {
+
+            "input_ids":
+                torch.tensor(
+                    token_ids,
+                    dtype=torch.long,
+                ),
+
+            "age_ids":
+                torch.tensor(
+                    age_ids,
+                    dtype=torch.long,
+                ),
+
+            "segment_ids":
+                torch.tensor(
+                    segment_ids,
+                    dtype=torch.long,
+                ),
+
+            "position_ids":
+                torch.tensor(
+                    position_ids,
+                    dtype=torch.long,
+                ),
+
+            "gap_ids":
+                torch.tensor(
+                    gap_ids,
+                    dtype=torch.long,
+                ),
+
+            "time_to_index_ids":
+                torch.tensor(
+                    time_to_index_ids,
+                    dtype=torch.long,
+                ),
+
+            "attention_mask":
+                torch.tensor(
+                    attention_mask,
+                    dtype=torch.bool,
+                ),
+
+            "labels":
+                torch.tensor(
+                    int(
+                        row[
+                            TARGET_COL
+                        ]
+                    ),
+                    dtype=torch.long,
+                ),
+        }
+
+# ============================================================
+# BEHRT-STYLE PREDICTION
+# ============================================================
+
+@torch.no_grad()
+def predict_behrt(
+    model,
+    loader,
+):
+
+    model.eval()
+
+    y_all = []
+    p_all = []
+
+    for batch in loader:
+
+        input_ids = batch[
+            "input_ids"
+        ].to(DEVICE)
+
+        age_ids = batch[
+            "age_ids"
+        ].to(DEVICE)
+
+        segment_ids = batch[
+            "segment_ids"
+        ].to(DEVICE)
+
+        position_ids = batch[
+            "position_ids"
+        ].to(DEVICE)
+
+        attention_mask = batch[
+            "attention_mask"
+        ].to(DEVICE)
+
+        labels = batch[
+            "labels"
+        ].to(DEVICE)
+
+        logits = model(
+            input_ids,
+            age_ids,
+            segment_ids,
+            position_ids,
+            attention_mask,
+        )
+
+        probability = torch.softmax(
+            logits,
+            dim=1,
+        )[:, 1]
+
+        y_all.extend(
+            labels.cpu().numpy()
+        )
+
+        p_all.extend(
+            probability.cpu().numpy()
+        )
+
+    return (
+        np.asarray(y_all),
+        np.asarray(p_all),
+    )
+
+
+# ============================================================
+# TRAIN BEHRT-STYLE
+# ============================================================
+
+def train_behrt_style(
+    frame,
+    epochs=20,
+    batch_size=32,
+    lr=1e-4,
+    max_len=256,
+    patience=4,
+):
+
+    tr = frame[
+        frame["split"] == "train"
+    ].reset_index(drop=True)
+
+    va = frame[
+        frame["split"] == "validation"
+    ].reset_index(drop=True)
+
+    te = frame[
+        frame["split"] == "test"
+    ].reset_index(drop=True)
+
+    tr_loader = DataLoader(
+        BEHRTDataset(
+            tr,
+            behrt_sequence,
+            MEDBERT_VOCAB,
+            max_len=max_len,
+        ),
+        batch_size=batch_size,
+        shuffle=True,
+    )
+
+    va_loader = DataLoader(
+        BEHRTDataset(
+            va,
+            behrt_sequence,
+            MEDBERT_VOCAB,
+            max_len=max_len,
+        ),
+        batch_size=batch_size,
+        shuffle=False,
+    )
+
+    te_loader = DataLoader(
+        BEHRTDataset(
+            te,
+            behrt_sequence,
+            MEDBERT_VOCAB,
+            max_len=max_len,
+        ),
+        batch_size=batch_size,
+        shuffle=False,
+    )
+
+    model = BEHRTStyleClassifier(
+        vocab_size=len(
+            MEDBERT_VOCAB
+        ),
+        max_len=max_len,
+    ).to(DEVICE)
+
+    y_train = tr[
+        TARGET_COL
+    ].to_numpy()
+
+    counts = np.bincount(
+        y_train,
+        minlength=2,
+    )
+
+    class_weights = (
+        len(y_train)
+        /
+        (
+            2
+            * np.maximum(
+                counts,
+                1,
+            )
+        )
+    )
+
+    class_weights = torch.tensor(
+        class_weights,
+        dtype=torch.float32,
+        device=DEVICE,
+    )
+
+    criterion = nn.CrossEntropyLoss(
+        weight=class_weights
+    )
+
+    optimizer = AdamW(
+        model.parameters(),
+        lr=lr,
+        weight_decay=0.01,
+    )
+
+    best_auc = -np.inf
+    best_state = None
+    no_improve = 0
+
+    for epoch in range(
+        1,
+        epochs + 1
+    ):
+
+        model.train()
+        running_loss = 0.0
+
+        for batch in tr_loader:
+
+            input_ids = batch[
+                "input_ids"
+            ].to(DEVICE)
+
+            age_ids = batch[
+                "age_ids"
+            ].to(DEVICE)
+
+            segment_ids = batch[
+                "segment_ids"
+            ].to(DEVICE)
+
+            position_ids = batch[
+                "position_ids"
+            ].to(DEVICE)
+
+            attention_mask = batch[
+                "attention_mask"
+            ].to(DEVICE)
+
+            labels = batch[
+                "labels"
+            ].to(DEVICE)
+
+            optimizer.zero_grad()
+
+            logits = model(
+                input_ids,
+                age_ids,
+                segment_ids,
+                position_ids,
+                attention_mask,
+            )
+
+            loss = criterion(
+                logits,
+                labels,
+            )
+
+            loss.backward()
+
+            torch.nn.utils.clip_grad_norm_(
+                model.parameters(),
+                1.0,
+            )
+
+            optimizer.step()
+
+            running_loss += loss.item()
+
+        y_val, p_val = predict_behrt(
+            model,
+            va_loader,
+        )
+
+        val_auc = roc_auc_score(
+            y_val,
+            p_val,
+        )
+
+        print(
+            f"BEHRT-style epoch {epoch}: "
+            f"loss="
+            f"{running_loss/max(len(tr_loader),1):.4f} "
+            f"val_AUROC={val_auc:.4f}"
+        )
+
+        if val_auc > best_auc:
+
+            best_auc = val_auc
+
+            best_state = copy.deepcopy(
+                model.state_dict()
+            )
+
+            no_improve = 0
+
+        else:
+
+            no_improve += 1
+
+            if no_improve >= patience:
+
+                print(
+                    "BEHRT-style early stopping."
+                )
+
+                break
+
+    model.load_state_dict(
+        best_state
+    )
+
+    y_val, p_val = predict_behrt(
+        model,
+        va_loader,
+    )
+
+    threshold = choose_threshold(
+        y_val,
+        p_val,
+    )
+
+    y_test, p_test = predict_behrt(
+        model,
+        te_loader,
+    )
+
+    metrics = binary_metrics(
+        y_test,
+        p_test,
+        threshold,
+    )
+
+    return (
+        model,
+        metrics,
+        p_test,
+    )
+
+# ============================================================
+# TIME-AWARE BEHRT PREDICTION
+# ============================================================
+
+@torch.no_grad()
+def predict_timeaware_behrt(
+    model,
+    loader,
+):
+
+    model.eval()
+
+    y_all = []
+    p_all = []
+
+    for batch in loader:
+
+        input_ids = batch[
+            "input_ids"
+        ].to(DEVICE)
+
+        age_ids = batch[
+            "age_ids"
+        ].to(DEVICE)
+
+        segment_ids = batch[
+            "segment_ids"
+        ].to(DEVICE)
+
+        position_ids = batch[
+            "position_ids"
+        ].to(DEVICE)
+
+        gap_ids = batch[
+            "gap_ids"
+        ].to(DEVICE)
+
+        time_to_index_ids = batch[
+            "time_to_index_ids"
+        ].to(DEVICE)
+
+        attention_mask = batch[
+            "attention_mask"
+        ].to(DEVICE)
+
+        labels = batch[
+            "labels"
+        ].to(DEVICE)
+
+        logits = model(
+            input_ids,
+            age_ids,
+            segment_ids,
+            position_ids,
+            gap_ids,
+            time_to_index_ids,
+            attention_mask,
+        )
+
+        probability = torch.softmax(
+            logits,
+            dim=1,
+        )[:, 1]
+
+        y_all.extend(
+            labels.cpu().numpy()
+        )
+
+        p_all.extend(
+            probability.cpu().numpy()
+        )
+
+    return (
+        np.asarray(y_all),
+        np.asarray(p_all),
+    )
+
+# ============================================================
+# TRAIN TIME-AWARE BEHRT
+# ============================================================
+
+def train_timeaware_behrt(
+    frame,
+    epochs=20,
+    batch_size=32,
+    lr=1e-4,
+    max_len=256,
+    patience=4,
+):
+
+    tr = frame[
+        frame["split"] == "train"
+    ].reset_index(drop=True)
+
+    va = frame[
+        frame["split"] == "validation"
+    ].reset_index(drop=True)
+
+    te = frame[
+        frame["split"] == "test"
+    ].reset_index(drop=True)
+
+    tr_loader = DataLoader(
+        TimeAwareBEHRTDataset(
+            tr,
+            time_aware_sequence,
+            MEDBERT_VOCAB,
+            max_len=max_len,
+        ),
+        batch_size=batch_size,
+        shuffle=True,
+    )
+
+    va_loader = DataLoader(
+        TimeAwareBEHRTDataset(
+            va,
+            time_aware_sequence,
+            MEDBERT_VOCAB,
+            max_len=max_len,
+        ),
+        batch_size=batch_size,
+        shuffle=False,
+    )
+
+    te_loader = DataLoader(
+        TimeAwareBEHRTDataset(
+            te,
+            time_aware_sequence,
+            MEDBERT_VOCAB,
+            max_len=max_len,
+        ),
+        batch_size=batch_size,
+        shuffle=False,
+    )
+
+    model = TimeAwareBEHRTClassifier(
+        vocab_size=len(
+            MEDBERT_VOCAB
+        ),
+        max_len=max_len,
+    ).to(DEVICE)
+
+    y_train = tr[
+        TARGET_COL
+    ].to_numpy()
+
+    counts = np.bincount(
+        y_train,
+        minlength=2,
+    )
+
+    class_weights = (
+        len(y_train)
+        /
+        (
+            2
+            * np.maximum(
+                counts,
+                1,
+            )
+        )
+    )
+
+    class_weights = torch.tensor(
+        class_weights,
+        dtype=torch.float32,
+        device=DEVICE,
+    )
+
+    criterion = nn.CrossEntropyLoss(
+        weight=class_weights
+    )
+
+    optimizer = AdamW(
+        model.parameters(),
+        lr=lr,
+        weight_decay=0.01,
+    )
+
+    best_auc = -np.inf
+    best_state = None
+    no_improve = 0
+
+    for epoch in range(
+        1,
+        epochs + 1
+    ):
+
+        model.train()
+        running_loss = 0.0
+
+        for batch in tr_loader:
+
+            input_ids = batch[
+                "input_ids"
+            ].to(DEVICE)
+
+            age_ids = batch[
+                "age_ids"
+            ].to(DEVICE)
+
+            segment_ids = batch[
+                "segment_ids"
+            ].to(DEVICE)
+
+            position_ids = batch[
+                "position_ids"
+            ].to(DEVICE)
+
+            gap_ids = batch[
+                "gap_ids"
+            ].to(DEVICE)
+
+            time_to_index_ids = batch[
+                "time_to_index_ids"
+            ].to(DEVICE)
+
+            attention_mask = batch[
+                "attention_mask"
+            ].to(DEVICE)
+
+            labels = batch[
+                "labels"
+            ].to(DEVICE)
+
+            optimizer.zero_grad()
+
+            logits = model(
+                input_ids,
+                age_ids,
+                segment_ids,
+                position_ids,
+                gap_ids,
+                time_to_index_ids,
+                attention_mask,
+            )
+
+            loss = criterion(
+                logits,
+                labels,
+            )
+
+            loss.backward()
+
+            torch.nn.utils.clip_grad_norm_(
+                model.parameters(),
+                1.0,
+            )
+
+            optimizer.step()
+
+            running_loss += loss.item()
+
+        y_val, p_val = predict_timeaware_behrt(
+            model,
+            va_loader,
+        )
+
+        val_auc = roc_auc_score(
+            y_val,
+            p_val,
+        )
+
+        print(
+            f"Time-Aware BEHRT epoch {epoch}: "
+            f"loss="
+            f"{running_loss/max(len(tr_loader),1):.4f} "
+            f"val_AUROC={val_auc:.4f}"
+        )
+
+        if val_auc > best_auc:
+
+            best_auc = val_auc
+
+            best_state = copy.deepcopy(
+                model.state_dict()
+            )
+
+            no_improve = 0
+
+        else:
+
+            no_improve += 1
+
+            if no_improve >= patience:
+
+                print(
+                    "Time-Aware BEHRT "
+                    "early stopping."
+                )
+
+                break
+
+    model.load_state_dict(
+        best_state
+    )
+
+    y_val, p_val = predict_timeaware_behrt(
+        model,
+        va_loader,
+    )
+
+    threshold = choose_threshold(
+        y_val,
+        p_val,
+    )
+
+    y_test, p_test = predict_timeaware_behrt(
+        model,
+        te_loader,
+    )
+
+    metrics = binary_metrics(
+        y_test,
+        p_test,
+        threshold,
+    )
+
+    return (
+        model,
+        metrics,
+        p_test,
+    )
 
 # %%
 # ============================================================
@@ -4907,6 +6665,110 @@ if RUN_GRU:
         predictions
         .merge(
             gru_pred,
+            on=ID_COL,
+            how="left",
+        )
+    )
+
+if RUN_BEHRT:
+    print(
+        "\n"
+        + "=" * 70
+    )
+    print(
+        "TRAINING BEHRT-STYLE"
+    )
+    print(
+        "=" * 70
+    )
+
+    (
+        behrt_model,
+        behrt_metrics,
+        p_behrt,
+    ) = train_behrt_style(
+        model_cohort
+    )
+
+    results.append(
+        {
+            "Model":
+                "BEHRT-style",
+            **behrt_metrics,
+        }
+    )
+
+    behrt_pred = pd.DataFrame(
+        {
+            ID_COL:
+                model_cohort[
+                    model_cohort[
+                        "split"
+                    ] == "test"
+                ][ID_COL]
+                .reset_index(drop=True),
+
+            "BEHRT_style_probability":
+                p_behrt,
+        }
+    )
+
+    predictions = (
+        predictions
+        .merge(
+            behrt_pred,
+            on=ID_COL,
+            how="left",
+        )
+    )
+
+if RUN_TIMEAWARE_BEHRT:
+    print(
+        "\n"
+        + "=" * 70
+    )
+    print(
+        "TRAINING TIME-AWARE BEHRT"
+    )
+    print(
+        "=" * 70
+    )
+
+    (
+        timeaware_behrt_model,
+        timeaware_behrt_metrics,
+        p_timeaware_behrt,
+    ) = train_timeaware_behrt(
+        model_cohort
+    )
+
+    results.append(
+        {
+            "Model":
+                "Time-Aware BEHRT-style",
+            **timeaware_behrt_metrics,
+        }
+    )
+
+    timeaware_behrt_pred = pd.DataFrame(
+        {
+            ID_COL:
+                model_cohort[
+                    model_cohort[
+                        "split"
+                    ] == "test"
+                ][ID_COL]
+                .reset_index(drop=True),
+
+            "TimeAware_BEHRT_probability":
+                p_timeaware_behrt,
+        }
+    )
+
+    predictions = (
+        predictions
+        .merge(
+            timeaware_behrt_pred,
             on=ID_COL,
             how="left",
         )

@@ -250,3 +250,15 @@ output/
 .env*
 hf_token*
 huggingface_token*
+
+# Local multi-seed / patient-level analysis artifacts
+multiseed_runs/
+llama32_multiseed/
+llama32_seed42_frozen/
+final_5seed_all_model_predictions_long.csv
+final_5seed_all_model_predictions_long_corrected.csv
+multiseed_43_46_predictions_long.csv
+prediction_file_inventory.csv
+formers
+paired_bootstrap_temporal_5seed.py
+paired_bootstrap_temporal_5seed_results.csv
