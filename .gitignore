@@ -262,3 +262,7 @@ prediction_file_inventory.csv
 formers
 paired_bootstrap_temporal_5seed.py
 paired_bootstrap_temporal_5seed_results.csv
+ethos_env/
+*_predictions_seed*.csv
+final_5seed_all_model_predictions_long_with_ethos.csv
+*_backup.py

@@ -1,3 +1,4 @@
+import os
 import random
 import numpy as np
 import pandas as pd
@@ -15,7 +16,7 @@ from sklearn.metrics import (
 # 1. SETTINGS
 # ============================================================
 
-SEED = 42
+SEED = int(os.environ.get("SURVIVAL_SEED", "42"))
 MAX_LEN = 256
 MAX_VOCAB = 14000
 
@@ -629,9 +630,9 @@ def predict(loader):
 # 12. TRAIN
 # ============================================================
 
-BEST_MODEL = (
-    "survival_timeaware_behrt_365d_best.pt"
-)
+BEST_MODEL = f"survival_timeaware_behrt_365d_best_seed{SEED}.pt"
+RESULTS_FILE = f"survival_timeaware_behrt_365d_results_seed{SEED}.csv"
+PREDICTIONS_FILE = f"survival_timeaware_behrt_365d_predictions_seed{SEED}.csv"
 
 best_cindex = -np.inf
 best_epoch = 0
@@ -768,6 +769,9 @@ results = {
     "Model":
         "Time-Aware BEHRT Survival 365d",
 
+    "Seed":
+        SEED,
+
     "N_test":
         len(test_event),
 
@@ -819,7 +823,7 @@ for key, value in results.items():
 pd.DataFrame(
     [results]
 ).to_csv(
-    "survival_timeaware_behrt_365d_results.csv",
+    RESULTS_FILE,
     index=False
 )
 
@@ -829,17 +833,12 @@ pd.DataFrame({
     "dn_event": test_event,
     "predicted_365d_risk": test_risk
 }).to_csv(
-    "survival_timeaware_behrt_365d_predictions.csv",
+    PREDICTIONS_FILE,
     index=False
 )
 
-print(
-    "\nSaved: survival_timeaware_behrt_365d_results.csv"
-)
-
-print(
-    "Saved: survival_timeaware_behrt_365d_predictions.csv"
-)
+print("\nSaved:", RESULTS_FILE)
+print("Saved:", PREDICTIONS_FILE)
 
 print(
     "Saved:",

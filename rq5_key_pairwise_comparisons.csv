@@ -1,0 +1,13 @@
+Comparison,Metric,Difference,95% CI,Holm p,Significant
+ETHOS vs ClinicalBERT,C-index,0.005,-0.030 to 0.042,1.000,No
+ETHOS vs ClinicalBERT,AUROC,0.004,-0.032 to 0.041,1.000,No
+ETHOS vs ClinicalBERT,AUPRC,-0.007,-0.051 to 0.036,1.000,No
+ETHOS vs Time-Aware BEHRT,AUPRC,0.083,0.044 to 0.129,0.030,Yes
+ETHOS vs CoxPH,C-index,0.032,-0.024 to 0.087,1.000,No
+ETHOS vs CoxPH,AUROC,0.036,-0.023 to 0.092,1.000,No
+ETHOS vs CoxPH,AUPRC,0.044,-0.012 to 0.092,1.000,No
+ClinicalBERT vs BEHRT Control,AUPRC,0.071,0.029 to 0.117,0.030,Yes
+ClinicalBERT vs Time-Aware BEHRT,AUPRC,0.090,0.051 to 0.136,0.030,Yes
+ClinicalBERT vs CoxPH,C-index,0.027,-0.022 to 0.081,1.000,No
+ClinicalBERT vs CoxPH,AUROC,0.032,-0.020 to 0.087,1.000,No
+ClinicalBERT vs CoxPH,AUPRC,0.050,-0.007 to 0.106,1.000,No
