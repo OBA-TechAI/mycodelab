@@ -1,0 +1,421 @@
+model,feature,group,repeat,AUROC_drop,AUPRC_drop
+timeaware,prior_dx_count,Clinical history,1,-0.0035089927774543117,-0.013087211536528837
+timeaware,prior_dx_count,Clinical history,2,0.0042957624584978316,0.012856825541561756
+timeaware,prior_dx_count,Clinical history,3,-0.0031628141177951763,0.0023001657174172574
+timeaware,prior_dx_count,Clinical history,4,0.005389372315148355,-0.0016851193578726609
+timeaware,prior_dx_count,Clinical history,5,0.009157999087347046,0.006750559156346092
+timeaware,prior_dx_count,Clinical history,6,-0.0012903022769114036,0.008551710461792095
+timeaware,prior_dx_count,Clinical history,7,-0.005829963336532962,-0.0008879485499914963
+timeaware,prior_dx_count,Clinical history,8,0.007576592028449514,0.01340522244144482
+timeaware,prior_dx_count,Clinical history,9,0.003682082107283713,0.002274357493552509
+timeaware,prior_dx_count,Clinical history,10,0.00193545341536705,-0.00010614237580805486
+timeaware,prior_dx_count,Clinical history,11,0.00044845871819476635,-0.01703880194534832
+timeaware,prior_dx_count,Clinical history,12,0.0018567764472627868,0.001354479957389243
+timeaware,prior_dx_count,Clinical history,13,0.0036112728359899426,-0.009425782384539783
+timeaware,prior_dx_count,Clinical history,14,-0.009795282528992644,-0.019711009616498798
+timeaware,prior_dx_count,Clinical history,15,-0.007663136693364492,-0.004521953966572401
+timeaware,prior_dx_count,Clinical history,16,-0.004004657676511814,-0.00883505687457703
+timeaware,prior_dx_count,Clinical history,17,0.016065836886909657,-0.00260661231351364
+timeaware,prior_dx_count,Clinical history,18,0.0023524413463202887,0.004979936386069056
+timeaware,prior_dx_count,Clinical history,19,0.003957451495648967,0.010400034609338832
+timeaware,prior_dx_count,Clinical history,20,0.007867696810435643,-0.0031934057234191127
+timeaware,prior_dx_count,Clinical history,21,0.0111642617740082,0.0007190950068677593
+timeaware,prior_dx_count,Clinical history,22,-0.005216282985318954,-0.005442319410797508
+timeaware,prior_dx_count,Clinical history,23,0.012596182593507477,0.005058767497739425
+timeaware,prior_dx_count,Clinical history,24,-0.0035561989583170472,-0.0007572414165641639
+timeaware,prior_dx_count,Clinical history,25,0.012470299444540478,0.00820179963458717
+timeaware,prior_dx_count,Clinical history,26,0.01669525263174454,0.00889388724860099
+timeaware,prior_dx_count,Clinical history,27,0.000574341867161654,-0.006129533861597536
+timeaware,prior_dx_count,Clinical history,28,0.008685937278720912,-0.003355310461194805
+timeaware,prior_dx_count,Clinical history,29,0.0038945099211656897,-0.0013127902379883871
+timeaware,prior_dx_count,Clinical history,30,0.0055624616449780895,-3.6842476064391505e-07
+timeaware,prior_unique_dx_count,Clinical history,1,0.0015656716652765468,-0.002800414041483984
+timeaware,prior_unique_dx_count,Clinical history,2,-0.005405107708769452,0.0034043716639303445
+timeaware,prior_unique_dx_count,Clinical history,3,-0.001258831489669765,0.0036424883599888713
+timeaware,prior_unique_dx_count,Clinical history,4,-0.0024783244952872874,-0.009389794146592717
+timeaware,prior_unique_dx_count,Clinical history,5,-0.0018095702664002733,0.0028806197406570366
+timeaware,prior_unique_dx_count,Clinical history,6,0.0037214205913360665,0.0019635045020675312
+timeaware,prior_unique_dx_count,Clinical history,7,0.00222655819735329,-0.01165894734835149
+timeaware,prior_unique_dx_count,Clinical history,8,0.0007002250161286527,2.671914712681911e-05
+timeaware,prior_unique_dx_count,Clinical history,9,-0.005153341410835455,-0.007451723113025416
+timeaware,prior_unique_dx_count,Clinical history,10,-0.0003304432660384826,-0.007633288455815651
+timeaware,prior_unique_dx_count,Clinical history,11,-0.005027458261868567,0.0042463608458453705
+timeaware,prior_unique_dx_count,Clinical history,12,-0.006121068118519091,0.003532650402017029
+timeaware,prior_unique_dx_count,Clinical history,13,-0.008906232789413271,-0.004560553386665139
+timeaware,prior_unique_dx_count,Clinical history,14,-0.0016600840270020178,0.00029126073807422825
+timeaware,prior_unique_dx_count,Clinical history,15,0.00045632641500514826,-0.00233141495173661
+timeaware,prior_unique_dx_count,Clinical history,16,-0.0039023776179761827,0.0015582369122799644
+timeaware,prior_unique_dx_count,Clinical history,17,-0.004280027064877068,-0.006362966387138541
+timeaware,prior_unique_dx_count,Clinical history,18,-0.003682082107284046,-0.007024260549182065
+timeaware,prior_unique_dx_count,Clinical history,19,-0.004051863857374549,-0.0016503546495337806
+timeaware,prior_unique_dx_count,Clinical history,20,-0.0012273607024281263,0.0006389585425219113
+timeaware,prior_unique_dx_count,Clinical history,21,-0.0023839121335621494,0.000498988696526953
+timeaware,prior_unique_dx_count,Clinical history,22,-0.0027772969740839093,-0.0016550634951018606
+timeaware,prior_unique_dx_count,Clinical history,23,-0.0025727368570126474,-0.005443155424702362
+timeaware,prior_unique_dx_count,Clinical history,24,-0.001164419127944516,0.003313801575266978
+timeaware,prior_unique_dx_count,Clinical history,25,-0.00765526899655411,-0.0031607502975518065
+timeaware,prior_unique_dx_count,Clinical history,26,0.0020613365643340487,0.0042255937013686296
+timeaware,prior_unique_dx_count,Clinical history,27,-0.0018095702664002733,-0.0035508055589693333
+timeaware,prior_unique_dx_count,Clinical history,28,0.0018489087504524049,0.00015670614220353318
+timeaware,prior_unique_dx_count,Clinical history,29,-0.006899970102752118,-0.010920238913518815
+timeaware,prior_unique_dx_count,Clinical history,30,-0.0031549464209847944,-0.010650024066960195
+timeaware,prior_visit_count,Clinical history,1,0.00025176629793377536,0.00040421527478207153
+timeaware,prior_visit_count,Clinical history,2,-0.0001652216330192413,0.0002486458187644647
+timeaware,prior_visit_count,Clinical history,3,0.003493257383833326,0.0014875461016684577
+timeaware,prior_visit_count,Clinical history,4,-0.001927585718556779,-6.618749363435095e-05
+timeaware,prior_visit_count,Clinical history,5,0.0030447986656385595,0.0008594913973514473
+timeaware,prior_visit_count,Clinical history,6,0.0029503863039133105,0.0009521290547602757
+timeaware,prior_visit_count,Clinical history,7,0.0007946373778539018,4.874547472549784e-05
+timeaware,prior_visit_count,Clinical history,8,0.003304432660382939,0.0010714136601639723
+timeaware,prior_visit_count,Clinical history,9,0.0025570014633915505,0.0006606490430720868
+timeaware,prior_visit_count,Clinical history,10,0.0009598590108731431,0.0056863310773292985
+timeaware,prior_visit_count,Clinical history,11,0.002989724787965553,0.0012005456990774321
+timeaware,prior_visit_count,Clinical history,12,0.0029425186071028175,0.0005628876933007898
+timeaware,prior_visit_count,Clinical history,13,0.0012352283992382862,-0.00035852902880464943
+timeaware,prior_visit_count,Clinical history,14,-0.0008025050746645057,0.0007453649427278386
+timeaware,prior_visit_count,Clinical history,15,-0.0003304432660383716,-8.977598031253975e-05
+timeaware,prior_visit_count,Clinical history,16,0.0009441236172522682,-0.0003277443540914693
+timeaware,prior_visit_count,Clinical history,17,0.0011801545215652798,0.0003330121378727069
+timeaware,prior_visit_count,Clinical history,18,0.0021478812292489158,0.000704935865234263
+timeaware,prior_visit_count,Clinical history,19,-0.0033437711444352924,-0.00044934887824576997
+timeaware,prior_visit_count,Clinical history,20,-0.0012824345801011328,-0.0006641968689341526
+timeaware,prior_visit_count,Clinical history,21,-0.0010857421598401418,-0.0001977919484252577
+timeaware,prior_visit_count,Clinical history,22,0.0003933848405217599,0.0010256913043405758
+timeaware,prior_visit_count,Clinical history,23,0.0012273607024279043,0.003478440136283595
+timeaware,prior_visit_count,Clinical history,24,0.0013375084577740282,0.0008479681129340555
+timeaware,prior_visit_count,Clinical history,25,-7.867696810459623e-05,-0.0009217753844254217
+timeaware,prior_visit_count,Clinical history,26,-0.0032336233890891686,-0.0005673054069015304
+timeaware,prior_visit_count,Clinical history,27,8.65446649147561e-05,0.0006474175615012734
+timeaware,prior_visit_count,Clinical history,28,0.0007867696810435199,-0.0003346811814343431
+timeaware,prior_visit_count,Clinical history,29,0.0032729618731413,0.0027506425347388064
+timeaware,prior_visit_count,Clinical history,30,0.0016128778461392823,0.005050518103130758
+timeaware,age_at_last_prior_visit,Clinical history,1,0.0015656716652766578,0.0041017646780464045
+timeaware,age_at_last_prior_visit,Clinical history,2,-0.00025963399474449034,-0.005279769480158986
+timeaware,age_at_last_prior_visit,Clinical history,3,-0.003981054586080557,-0.00895645412994836
+timeaware,age_at_last_prior_visit,Clinical history,4,-0.009315353023556017,-0.01544940366738487
+timeaware,age_at_last_prior_visit,Clinical history,5,-0.004099070038237063,-0.011994574407648007
+timeaware,age_at_last_prior_visit,Clinical history,6,-0.006970779374046221,-0.004545520978231632
+timeaware,age_at_last_prior_visit,Clinical history,7,-0.0062390835706755965,-0.006790419306092282
+timeaware,age_at_last_prior_visit,Clinical history,8,-0.006211546631839093,-0.013414092155870083
+timeaware,age_at_last_prior_visit,Clinical history,9,-0.0055624616449780895,-0.006074134645132623
+timeaware,age_at_last_prior_visit,Clinical history,10,-0.006663939198439106,0.0006933521280106658
+timeaware,age_at_last_prior_visit,Clinical history,11,0.0014240531226887843,-0.0034301826499605614
+timeaware,age_at_last_prior_visit,Clinical history,12,-0.005979449575931217,0.00024558369446550654
+timeaware,age_at_last_prior_visit,Clinical history,13,-0.00860726031061676,-0.009657657454074847
+timeaware,age_at_last_prior_visit,Clinical history,14,-0.0017938348727792874,-0.0033669875932479665
+timeaware,age_at_last_prior_visit,Clinical history,15,-0.004673411905398828,-0.0005088811610902688
+timeaware,age_at_last_prior_visit,Clinical history,16,0.0026435461283064177,-0.002440314979316821
+timeaware,age_at_last_prior_visit,Clinical history,17,-0.004995987474626817,-0.005386140233987785
+timeaware,age_at_last_prior_visit,Clinical history,18,-0.0031313433305535376,0.002183709267193218
+timeaware,age_at_last_prior_visit,Clinical history,19,-0.004146276219099798,-0.01108937624836745
+timeaware,age_at_last_prior_visit,Clinical history,20,0.0015342008780349081,-0.004775519459672833
+timeaware,age_at_last_prior_visit,Clinical history,21,-0.004523925666000683,0.0008075413464874448
+timeaware,age_at_last_prior_visit,Clinical history,22,-0.008583657220185392,0.00045208808424337943
+timeaware,age_at_last_prior_visit,Clinical history,23,-0.004925178203332936,-0.010232496526608376
+timeaware,age_at_last_prior_visit,Clinical history,24,-0.0036034051391795607,-0.005825459178026848
+timeaware,age_at_last_prior_visit,Clinical history,25,-0.0044059102138440664,-0.0050109548677347016
+timeaware,age_at_last_prior_visit,Clinical history,26,-0.005153341410835455,-0.002043478064439108
+timeaware,age_at_last_prior_visit,Clinical history,27,-0.0014083177290680204,-0.0038957995958011082
+timeaware,age_at_last_prior_visit,Clinical history,28,-0.00409120234142657,-0.0020475322857570477
+timeaware,age_at_last_prior_visit,Clinical history,29,-0.0026592815219274035,-0.0037150038595042123
+timeaware,age_at_last_prior_visit,Clinical history,30,-0.006121068118519091,-0.007271263115976895
+timeaware,mean_codes_per_visit,Clinical history,1,0.02933077370930426,0.006557868209462414
+timeaware,mean_codes_per_visit,Clinical history,2,0.04928325282056922,0.016098977945807724
+timeaware,mean_codes_per_visit,Clinical history,3,0.042013500967726713,0.021821640481644672
+timeaware,mean_codes_per_visit,Clinical history,4,0.01889034004185608,-0.006264718317711249
+timeaware,mean_codes_per_visit,Clinical history,5,0.03649824550361114,0.008948393385103975
+timeaware,mean_codes_per_visit,Clinical history,6,0.0178360686692578,-0.011036687520425303
+timeaware,mean_codes_per_visit,Clinical history,7,0.056553004673411844,0.001541180476978321
+timeaware,mean_codes_per_visit,Clinical history,8,0.03562493115765275,-0.003969288786613678
+timeaware,mean_codes_per_visit,Clinical history,9,0.04962156378341798,0.010640385621423831
+timeaware,mean_codes_per_visit,Clinical history,10,0.03592390363644926,0.02321072076041472
+timeaware,mean_codes_per_visit,Clinical history,11,0.03309940048150295,0.017774139884093904
+timeaware,mean_codes_per_visit,Clinical history,12,0.038913628424414926,0.005719929863932494
+timeaware,mean_codes_per_visit,Clinical history,13,0.015412818051643407,0.00280213491596662
+timeaware,mean_codes_per_visit,Clinical history,14,0.04610470330915328,0.01557561428449794
+timeaware,mean_codes_per_visit,Clinical history,15,0.03906311466381329,0.009166590334732272
+timeaware,mean_codes_per_visit,Clinical history,16,0.02268256990448614,0.020855334254529234
+timeaware,mean_codes_per_visit,Clinical history,17,0.035538386492737994,0.024688513835593312
+timeaware,mean_codes_per_visit,Clinical history,18,0.050337524193167504,0.02842277293261422
+timeaware,mean_codes_per_visit,Clinical history,19,0.03113247627889404,0.012750137351743906
+timeaware,mean_codes_per_visit,Clinical history,20,0.03458639517867512,-0.009492347752685593
+timeaware,mean_codes_per_visit,Clinical history,21,0.022478009787414766,0.01968423789692711
+timeaware,mean_codes_per_visit,Clinical history,22,0.020456011707132737,-0.004279536227119046
+timeaware,mean_codes_per_visit,Clinical history,23,0.053476735220531535,0.02289353089702892
+timeaware,mean_codes_per_visit,Clinical history,24,0.030015263331812148,0.012218870170308677
+timeaware,mean_codes_per_visit,Clinical history,25,0.020770719579550123,0.006118525679727815
+timeaware,mean_codes_per_visit,Clinical history,26,0.02717502478324496,-0.0034223789759741108
+timeaware,mean_codes_per_visit,Clinical history,27,0.022533083665087883,-0.005983338138536465
+timeaware,mean_codes_per_visit,Clinical history,28,0.037757076993281014,-0.0042240371171777535
+timeaware,mean_codes_per_visit,Clinical history,29,0.031014460826737533,0.002819422974155744
+timeaware,mean_codes_per_visit,Clinical history,30,0.01682900347752192,0.005359471180212627
+timeaware,max_codes_per_visit,Clinical history,1,0.012383754779625722,0.002815574965635975
+timeaware,max_codes_per_visit,Clinical history,2,0.01833173356831508,0.008897538503782831
+timeaware,max_codes_per_visit,Clinical history,3,0.011943163758241337,0.008656707381240775
+timeaware,max_codes_per_visit,Clinical history,4,0.018292395084263058,-0.0036448182546660046
+timeaware,max_codes_per_visit,Clinical history,5,0.013005302827650111,0.003333322082633955
+timeaware,max_codes_per_visit,Clinical history,6,0.021423738414816373,0.007709891548347864
+timeaware,max_codes_per_visit,Clinical history,7,0.01499583012069039,0.007089268514543501
+timeaware,max_codes_per_visit,Clinical history,8,0.008882629698981792,0.0010408440096630056
+timeaware,max_codes_per_visit,Clinical history,9,0.02413022611760629,0.006936362616011521
+timeaware,max_codes_per_visit,Clinical history,10,0.01244669635410911,0.008961827980020182
+timeaware,max_codes_per_visit,Clinical history,11,0.0187565891960787,0.003850180466990455
+timeaware,max_codes_per_visit,Clinical history,12,0.014106780381111128,0.001920876764709506
+timeaware,max_codes_per_visit,Clinical history,13,0.018803795376941324,0.015465223543012163
+timeaware,max_codes_per_visit,Clinical history,14,0.010967569353747209,0.004403896753618269
+timeaware,max_codes_per_visit,Clinical history,15,0.01938600494091358,0.002252298706314132
+timeaware,max_codes_per_visit,Clinical history,16,0.008261081650957403,0.01030231958408001
+timeaware,max_codes_per_visit,Clinical history,17,0.005114002926783101,0.008422368678786263
+timeaware,max_codes_per_visit,Clinical history,18,0.0120218407263456,0.006305010829779217
+timeaware,max_codes_per_visit,Clinical history,19,0.01793834872779343,0.00865272038323156
+timeaware,max_codes_per_visit,Clinical history,20,0.01342229075860324,-0.005789527329390087
+timeaware,max_codes_per_visit,Clinical history,21,0.00852071564570167,0.004717939536894394
+timeaware,max_codes_per_visit,Clinical history,22,0.01797768721184556,0.008524180189668384
+timeaware,max_codes_per_visit,Clinical history,23,0.011581249704961327,0.005158730843174253
+timeaware,max_codes_per_visit,Clinical history,24,-0.0014161854258785134,0.0027752815653905583
+timeaware,max_codes_per_visit,Clinical history,25,0.01660084027001929,0.0012626258088825615
+timeaware,max_codes_per_visit,Clinical history,26,0.020086229957042345,0.0036257428502435574
+timeaware,max_codes_per_visit,Clinical history,27,0.02265896681405488,0.009224857174642831
+timeaware,max_codes_per_visit,Clinical history,28,0.01852842598857596,0.006062009932464391
+timeaware,max_codes_per_visit,Clinical history,29,0.027190760176865725,0.013917989024441274
+timeaware,max_codes_per_visit,Clinical history,30,0.017080769775455806,0.0012397033188870366
+timeaware,mean_unique_codes_per_visit,Clinical history,1,0.04020393070132633,0.02643537686590694
+timeaware,mean_unique_codes_per_visit,Clinical history,2,0.05208415288508428,0.03457669562752952
+timeaware,mean_unique_codes_per_visit,Clinical history,3,0.026994067756604956,-0.0043418572140590805
+timeaware,mean_unique_codes_per_visit,Clinical history,4,0.05631697376909883,0.023133516228410284
+timeaware,mean_unique_codes_per_visit,Clinical history,5,0.032556529401582934,0.009966139694392112
+timeaware,mean_unique_codes_per_visit,Clinical history,6,0.05084105678903561,-0.0045412282319288455
+timeaware,mean_unique_codes_per_visit,Clinical history,7,0.041462762190996094,0.012195839046784118
+timeaware,mean_unique_codes_per_visit,Clinical history,8,0.034720146024452614,-0.009521064714878152
+timeaware,mean_unique_codes_per_visit,Clinical history,9,0.044114176016113005,0.028281247897804007
+timeaware,mean_unique_codes_per_visit,Clinical history,10,0.03871693600415416,0.020613320850547623
+timeaware,mean_unique_codes_per_visit,Clinical history,11,0.016349073972085293,0.0018244587413319135
+timeaware,mean_unique_codes_per_visit,Clinical history,12,0.02517662979339419,-0.0044562028645394325
+timeaware,mean_unique_codes_per_visit,Clinical history,13,0.02920489056033726,0.002716582758097108
+timeaware,mean_unique_codes_per_visit,Clinical history,14,0.037473839908105266,0.010370378128379099
+timeaware,mean_unique_codes_per_visit,Clinical history,15,0.051053484602917254,0.021430336328933874
+timeaware,mean_unique_codes_per_visit,Clinical history,16,0.07703261947097606,0.0398425321835601
+timeaware,mean_unique_codes_per_visit,Clinical history,17,0.035593460370411,0.015588357656948326
+timeaware,mean_unique_codes_per_visit,Clinical history,18,0.04774118424572393,0.024641489860953852
+timeaware,mean_unique_codes_per_visit,Clinical history,19,0.049125898884360475,0.01294408648177825
+timeaware,mean_unique_codes_per_visit,Clinical history,20,0.037796415477333034,0.02459853343359905
+timeaware,mean_unique_codes_per_visit,Clinical history,21,0.04045569699926033,0.013314472910032182
+timeaware,mean_unique_codes_per_visit,Clinical history,22,0.041037906563232696,0.014728381043322886
+timeaware,mean_unique_codes_per_visit,Clinical history,23,0.01647495712105229,0.0022589403221842663
+timeaware,mean_unique_codes_per_visit,Clinical history,24,0.062320026435461195,-0.0007285774878993678
+timeaware,mean_unique_codes_per_visit,Clinical history,25,0.04471998867051652,-0.009174389180574227
+timeaware,mean_unique_codes_per_visit,Clinical history,26,0.025747037812150708,-0.0032408456136212294
+timeaware,mean_unique_codes_per_visit,Clinical history,27,0.027560541926956228,0.00400017247143733
+timeaware,mean_unique_codes_per_visit,Clinical history,28,0.05918081540809739,0.02023654986117579
+timeaware,mean_unique_codes_per_visit,Clinical history,29,0.03025129423612527,0.030791432582685768
+timeaware,mean_unique_codes_per_visit,Clinical history,30,0.014193325046025884,-0.012734420937704743
+timeaware,prior_icd9_count,Clinical history,1,0.00828468474138877,0.009111290457143623
+timeaware,prior_icd9_count,Clinical history,2,0.004169879309530833,0.009956554828038117
+timeaware,prior_icd9_count,Clinical history,3,-0.0038945099211658007,-0.0015229674073795607
+timeaware,prior_icd9_count,Clinical history,4,0.00021242781388153276,0.00276369242045324
+timeaware,prior_icd9_count,Clinical history,5,0.006073861937656355,-0.0180444942901013
+timeaware,prior_icd9_count,Clinical history,6,-0.0010857421598401418,-0.006997843644975604
+timeaware,prior_icd9_count,Clinical history,7,-0.0022894997718369003,-0.0036935941523076055
+timeaware,prior_icd9_count,Clinical history,8,0.006396437506884234,-0.010983314530845084
+timeaware,prior_icd9_count,Clinical history,9,0.00376862677219858,0.0008234880711144865
+timeaware,prior_icd9_count,Clinical history,10,-0.0015460024232506475,0.0009689290974742304
+timeaware,prior_icd9_count,Clinical history,11,-0.009740208651319526,-0.022089750617222237
+timeaware,prior_icd9_count,Clinical history,12,-0.002612075341064779,-0.003765280172039892
+timeaware,prior_icd9_count,Clinical history,13,-0.0035168604742649157,0.0061715678649767736
+timeaware,prior_icd9_count,Clinical history,14,0.0015656716652767688,0.0009178022241369821
+timeaware,prior_icd9_count,Clinical history,15,0.001455523909930423,0.006047952455041028
+timeaware,prior_icd9_count,Clinical history,16,0.00501172286824747,5.7347326823525835e-05
+timeaware,prior_icd9_count,Clinical history,17,-0.004177747006341548,-0.007754016548115833
+timeaware,prior_icd9_count,Clinical history,18,0.001730893298295788,-0.0018167464717710469
+timeaware,prior_icd9_count,Clinical history,19,0.0034539188997811943,-0.0028175732676668785
+timeaware,prior_icd9_count,Clinical history,20,0.011730735944359583,0.010264398274175163
+timeaware,prior_icd9_count,Clinical history,21,-0.004453116394706691,-0.023251139224267053
+timeaware,prior_icd9_count,Clinical history,22,-0.00013375084577749163,-0.0007776260141909574
+timeaware,prior_icd9_count,Clinical history,23,-0.0020770719579551455,-0.016011006724002824
+timeaware,prior_icd9_count,Clinical history,24,-0.0005428710799201264,-0.0033634720105713556
+timeaware,prior_icd9_count,Clinical history,25,0.0027379584900315557,0.004430561356766366
+timeaware,prior_icd9_count,Clinical history,26,-0.0022737643782160255,-0.008056488284983843
+timeaware,prior_icd9_count,Clinical history,27,-0.0027458261868420486,-0.01087125374220338
+timeaware,prior_icd9_count,Clinical history,28,-0.0026514138251169106,0.005934211988710414
+timeaware,prior_icd9_count,Clinical history,29,0.005877169517395364,0.0013911199921042838
+timeaware,prior_icd9_count,Clinical history,30,-0.0039102453147865646,-0.0030513792083867453
+timeaware,prior_icd10_count,Clinical history,1,0.04658463281458969,0.038860358714713966
+timeaware,prior_icd10_count,Clinical history,2,0.047190445468993314,0.04743325115339109
+timeaware,prior_icd10_count,Clinical history,3,0.03836288964768442,0.04820853567817124
+timeaware,prior_icd10_count,Clinical history,4,0.07294141712954938,0.04832630260767873
+timeaware,prior_icd10_count,Clinical history,5,0.027710028166354483,0.03943052708195316
+timeaware,prior_icd10_count,Clinical history,6,0.0218407263457695,0.03678138930993133
+timeaware,prior_icd10_count,Clinical history,7,0.04360277572343452,0.05580173281581366
+timeaware,prior_icd10_count,Clinical history,8,0.05312268886406191,0.05008360486651084
+timeaware,prior_icd10_count,Clinical history,9,0.04982612390048924,0.04470252788841167
+timeaware,prior_icd10_count,Clinical history,10,0.07844093720004408,0.0594047108397224
+timeaware,prior_icd10_count,Clinical history,11,0.05848059039196851,0.04115406545576944
+timeaware,prior_icd10_count,Clinical history,12,0.03342197605073083,0.03411210820150298
+timeaware,prior_icd10_count,Clinical history,13,0.038095387956129656,0.03133678465102438
+timeaware,prior_icd10_count,Clinical history,14,0.05562461644978034,0.038368036368334385
+timeaware,prior_icd10_count,Clinical history,15,0.04896854494815184,0.0512036357077191
+timeaware,prior_icd10_count,Clinical history,16,0.050959072241192005,0.050295621032765886
+timeaware,prior_icd10_count,Clinical history,17,0.020707778005066846,0.038989348405585544
+timeaware,prior_icd10_count,Clinical history,18,0.05938537552516876,0.048448937017286975
+timeaware,prior_icd10_count,Clinical history,19,0.0333826375666787,0.04591579276177202
+timeaware,prior_icd10_count,Clinical history,20,0.03895296690846706,0.0529715516360007
+timeaware,prior_icd10_count,Clinical history,21,0.04335100942550074,0.048038815649959626
+timeaware,prior_icd10_count,Clinical history,22,0.04570345077182103,0.04306193927932642
+timeaware,prior_icd10_count,Clinical history,23,0.055671822630643075,0.06052191075323142
+timeaware,prior_icd10_count,Clinical history,24,0.03706471967396252,0.04471413511269398
+timeaware,prior_icd10_count,Clinical history,25,0.029747761640257386,0.0376172960475942
+timeaware,prior_icd10_count,Clinical history,26,0.047332064011581076,0.033137069028096044
+timeaware,prior_icd10_count,Clinical history,27,0.04452329625025575,0.04130871899642374
+timeaware,prior_icd10_count,Clinical history,28,0.06521533886170161,0.05255199200602251
+timeaware,prior_icd10_count,Clinical history,29,0.045097638117417294,0.027434375154706564
+timeaware,prior_icd10_count,Clinical history,30,0.04523925666000517,0.05357368807347636
+timeaware,mean_intervisit_gap_days,Temporal,1,-0.00022816320750274066,-0.0028872089686433344
+timeaware,mean_intervisit_gap_days,Temporal,2,0.001250963792859383,0.004398705310254852
+timeaware,mean_intervisit_gap_days,Temporal,3,-0.001164419127944627,-0.005831929228266058
+timeaware,mean_intervisit_gap_days,Temporal,4,-0.0004563264150053703,0.002182976122292485
+timeaware,mean_intervisit_gap_days,Temporal,5,0.0023603090431306706,-0.0023459677489779396
+timeaware,mean_intervisit_gap_days,Temporal,6,0.00010228005853563094,0.002416077559855262
+timeaware,mean_intervisit_gap_days,Temporal,7,0.00014948623939814443,-0.0029608545041231726
+timeaware,mean_intervisit_gap_days,Temporal,8,0.0007789019842330269,-0.00018428156661035033
+timeaware,mean_intervisit_gap_days,Temporal,9,-0.002431118314424774,0.002991269374531952
+timeaware,mean_intervisit_gap_days,Temporal,10,-0.0012430960960488902,-0.0023346570058080107
+timeaware,mean_intervisit_gap_days,Temporal,11,-0.0009913297981150038,-0.0026199366491422293
+timeaware,mean_intervisit_gap_days,Temporal,12,-0.0010464036757878992,-0.0024407117826180935
+timeaware,mean_intervisit_gap_days,Temporal,13,0.001927585718556557,0.004031897950476315
+timeaware,mean_intervisit_gap_days,Temporal,14,0.004154143915909958,-0.0028365147543321367
+timeaware,mean_intervisit_gap_days,Temporal,15,0.0006215480480242785,-0.000604175716061417
+timeaware,mean_intervisit_gap_days,Temporal,16,0.0006058126544034037,0.005114663447737311
+timeaware,mean_intervisit_gap_days,Temporal,17,-0.0030605340592595454,-0.004454967935052734
+timeaware,mean_intervisit_gap_days,Temporal,18,0.002116410442007166,0.0023937457333886303
+timeaware,mean_intervisit_gap_days,Temporal,19,0.0006687542288869031,0.0064456753185675175
+timeaware,mean_intervisit_gap_days,Temporal,20,0.0016128778461392823,0.007937682814664504
+timeaware,mean_intervisit_gap_days,Temporal,21,-7.867696810448521e-05,0.0042319753590193965
+timeaware,mean_intervisit_gap_days,Temporal,22,0.0013139053673427714,-0.0023649870504259263
+timeaware,mean_intervisit_gap_days,Temporal,23,0.0008890497395791508,0.0015187921957617034
+timeaware,mean_intervisit_gap_days,Temporal,24,0.004893707416090853,-0.005119247774412833
+timeaware,mean_intervisit_gap_days,Temporal,25,-0.000967726707683858,0.0037791315246960278
+timeaware,mean_intervisit_gap_days,Temporal,26,-0.0009834621013045108,-0.0012404132445730243
+timeaware,mean_intervisit_gap_days,Temporal,27,-0.0032493587827100434,-0.005408151241876907
+timeaware,mean_intervisit_gap_days,Temporal,28,0.00010228005853551991,-0.007107256670449924
+timeaware,mean_intervisit_gap_days,Temporal,29,-0.00036191405328012127,-0.005935015466777993
+timeaware,mean_intervisit_gap_days,Temporal,30,0.00043272332457400253,-0.0022249238962142315
+timeaware,max_intervisit_gap_days,Temporal,1,0.013044641311702354,-0.0066771732817158536
+timeaware,max_intervisit_gap_days,Temporal,2,-0.004933045900143318,-0.0035143446029464454
+timeaware,max_intervisit_gap_days,Temporal,3,0.0033595065380559452,-0.007129909907923421
+timeaware,max_intervisit_gap_days,Temporal,4,0.006191877389812972,0.007858731495857751
+timeaware,max_intervisit_gap_days,Temporal,5,0.006254818964296249,0.0017101478040324747
+timeaware,max_intervisit_gap_days,Temporal,6,-0.0008811820427688799,0.0004434413291001804
+timeaware,max_intervisit_gap_days,Temporal,7,0.005515255464115354,0.00038564888090100724
+timeaware,max_intervisit_gap_days,Temporal,8,-0.0016128778461395044,0.002726233730288269
+timeaware,max_intervisit_gap_days,Temporal,9,-0.0026514138251170216,-0.00036344378557484625
+timeaware,max_intervisit_gap_days,Temporal,10,-0.004217085490393568,0.0021332467745180106
+timeaware,max_intervisit_gap_days,Temporal,11,-0.002525530676149801,-0.002591346659812227
+timeaware,max_intervisit_gap_days,Temporal,12,-0.005916508001447718,-0.004780228669042208
+timeaware,max_intervisit_gap_days,Temporal,13,-0.006955043980425346,-0.007648511526036544
+timeaware,max_intervisit_gap_days,Temporal,14,-0.0007159604097497496,-0.017509563206298595
+timeaware,max_intervisit_gap_days,Temporal,15,-0.00818240468285325,-0.008357696436732537
+timeaware,max_intervisit_gap_days,Temporal,16,-0.0022816320750264074,-0.007390817214420947
+timeaware,max_intervisit_gap_days,Temporal,17,0.0065301883526615034,-0.003517050805332128
+timeaware,max_intervisit_gap_days,Temporal,18,-0.001841041053641912,0.002009522413118553
+timeaware,max_intervisit_gap_days,Temporal,19,0.007080927129392012,0.006235244024870135
+timeaware,max_intervisit_gap_days,Temporal,20,-0.001848908750452516,-0.003881216329307602
+timeaware,max_intervisit_gap_days,Temporal,21,0.0037371559849568303,0.00031991517083587717
+timeaware,max_intervisit_gap_days,Temporal,22,-0.008504980252081129,-0.0032564782085997
+timeaware,max_intervisit_gap_days,Temporal,23,-0.0031234756337431557,0.005363221102605037
+timeaware,max_intervisit_gap_days,Temporal,24,-0.0017308932982960101,-0.007164618505052067
+timeaware,max_intervisit_gap_days,Temporal,25,-0.00542871079920082,-0.0019853585930918183
+timeaware,max_intervisit_gap_days,Temporal,26,0.00999197494925319,0.007392525903150954
+timeaware,max_intervisit_gap_days,Temporal,27,-0.0003304432660384826,-0.002153012867684323
+timeaware,max_intervisit_gap_days,Temporal,28,-0.0016207455429497752,-0.0008948821950361674
+timeaware,max_intervisit_gap_days,Temporal,29,0.005940111091878975,0.00848000142664787
+timeaware,max_intervisit_gap_days,Temporal,30,-0.0013925823354472566,0.006022339850901698
+timeaware,last_intervisit_gap_days,Temporal,1,0.002903180123050575,-0.00046764582179509295
+timeaware,last_intervisit_gap_days,Temporal,2,0.0015735393620870397,0.0038788638096874384
+timeaware,last_intervisit_gap_days,Temporal,3,0.001455523909930534,-0.0031004704688104845
+timeaware,last_intervisit_gap_days,Temporal,4,0.0032493587827098214,-0.002226007204531838
+timeaware,last_intervisit_gap_days,Temporal,5,0.0017544963887270448,-0.0011562988354479886
+timeaware,last_intervisit_gap_days,Temporal,6,0.00321002029865769,0.0015088499623887308
+timeaware,last_intervisit_gap_days,Temporal,7,0.0029346509102924356,-0.0023963980186614
+timeaware,last_intervisit_gap_days,Temporal,8,0.0018882472345045365,-0.0007205033863004195
+timeaware,last_intervisit_gap_days,Temporal,9,0.001636480936570539,0.00019741812111070955
+timeaware,last_intervisit_gap_days,Temporal,10,0.003784362165819566,0.00222665953963877
+timeaware,last_intervisit_gap_days,Temporal,11,0.003390977325297695,-0.0004819318535736472
+timeaware,last_intervisit_gap_days,Temporal,12,0.001935453415367161,0.0007089949019338515
+timeaware,last_intervisit_gap_days,Temporal,13,0.0015971424525184075,-0.005090306969311231
+timeaware,last_intervisit_gap_days,Temporal,14,0.0034539188997811943,-0.0017822492894687958
+timeaware,last_intervisit_gap_days,Temporal,15,0.0029267832134820537,0.0017298783455701738
+timeaware,last_intervisit_gap_days,Temporal,16,0.002399647527182802,-0.0012573638696762868
+timeaware,last_intervisit_gap_days,Temporal,17,0.004099070038237063,0.0025166529778780367
+timeaware,last_intervisit_gap_days,Temporal,18,0.0017072902078644203,0.0018487105821582694
+timeaware,last_intervisit_gap_days,Temporal,19,0.003383109628487313,0.0042342752446959675
+timeaware,last_intervisit_gap_days,Temporal,20,0.0024704567984767944,0.0013428107714870685
+timeaware,last_intervisit_gap_days,Temporal,21,0.00232883825588881,0.0014574980502517765
+timeaware,last_intervisit_gap_days,Temporal,22,0.004280027064876846,0.002860454916287475
+timeaware,last_intervisit_gap_days,Temporal,23,0.0010149328885460385,-0.007163540209155161
+timeaware,last_intervisit_gap_days,Temporal,24,0.0020928073515757983,0.0037391081758377798
+timeaware,last_intervisit_gap_days,Temporal,25,0.001730893298295788,-0.0026922244082328295
+timeaware,last_intervisit_gap_days,Temporal,26,0.002037733473902681,0.004621079938791489
+timeaware,last_intervisit_gap_days,Temporal,27,0.0032493587827098214,0.0013740992751569148
+timeaware,last_intervisit_gap_days,Temporal,28,0.0034067127189185697,-0.00023039190211324168
+timeaware,last_intervisit_gap_days,Temporal,29,0.0015105977876036514,-0.0014986936669844908
+timeaware,last_intervisit_gap_days,Temporal,30,0.005192679894887475,0.0005794352436842842
+timeaware,last_visit_recency_days,Temporal,1,0.013139053673427603,0.006322013869613369
+timeaware,last_visit_recency_days,Temporal,2,0.0014437223647149056,0.006431408275816508
+timeaware,last_visit_recency_days,Temporal,3,0.008434170980786915,-0.0008728557381766644
+timeaware,last_visit_recency_days,Temporal,4,0.026734433761860577,0.02013776860236799
+timeaware,last_visit_recency_days,Temporal,5,0.013445893849034496,0.014178998593559838
+timeaware,last_visit_recency_days,Temporal,6,0.009252411449072184,0.006455974949833521
+timeaware,last_visit_recency_days,Temporal,7,0.017198785227612312,0.007607792904561733
+timeaware,last_visit_recency_days,Temporal,8,0.01391795565766063,0.017942173165934577
+timeaware,last_visit_recency_days,Temporal,9,0.004311497852118706,0.010793414590480388
+timeaware,last_visit_recency_days,Temporal,10,0.01649856021148355,0.013632284201375439
+timeaware,last_visit_recency_days,Temporal,11,0.013642586269295487,0.0008368914481304557
+timeaware,last_visit_recency_days,Temporal,12,0.01365045396610598,-0.0007405817398147829
+timeaware,last_visit_recency_days,Temporal,13,0.00484650123522834,0.014327214035287222
+timeaware,last_visit_recency_days,Temporal,14,0.01037749209296468,0.009404081918761992
+timeaware,last_visit_recency_days,Temporal,15,0.0066246007143867525,0.01197497689421087
+timeaware,last_visit_recency_days,Temporal,16,0.017112240562697556,0.013412025487779727
+timeaware,last_visit_recency_days,Temporal,17,0.020487482494374598,0.004747045456076904
+timeaware,last_visit_recency_days,Temporal,18,0.009803150225802804,0.008610500784546365
+timeaware,last_visit_recency_days,Temporal,19,0.011801545215653575,-0.0052997649241173506
+timeaware,last_visit_recency_days,Temporal,20,0.009669399380025423,0.013628820352628856
+timeaware,last_visit_recency_days,Temporal,21,0.021541753866972657,0.011710251897237456
+timeaware,last_visit_recency_days,Temporal,22,0.013768469418262375,0.010006380229383521
+timeaware,last_visit_recency_days,Temporal,23,0.0010228005853566424,0.007278872844985962
+timeaware,last_visit_recency_days,Temporal,24,0.01944894651539697,0.01863915810434455
+timeaware,last_visit_recency_days,Temporal,25,0.02564082390520983,0.01894259258320566
+timeaware,last_visit_recency_days,Temporal,26,0.008819688124498293,0.011679291826951294
+timeaware,last_visit_recency_days,Temporal,27,0.0009047851332000256,0.005720622713604184
+timeaware,last_visit_recency_days,Temporal,28,0.012187062359364842,0.005559536653771402
+timeaware,last_visit_recency_days,Temporal,29,0.013807807902314506,0.004707736166310317
+timeaware,last_visit_recency_days,Temporal,30,0.002305235165457553,0.008112328259976792
+timeaware,history_span_days,Temporal,1,-0.0031706818146056692,-0.0007467176398908981
+timeaware,history_span_days,Temporal,2,-0.0040203930701327995,-0.0009564003710487434
+timeaware,history_span_days,Temporal,3,-0.003595537442369179,-0.006843122661345014
+timeaware,history_span_days,Temporal,4,-0.0029739893943447893,-0.0029096889260466496
+timeaware,history_span_days,Temporal,5,-0.0029661216975344074,-0.00206267080005898
+timeaware,history_span_days,Temporal,6,-0.00040125253733225286,0.0023803166853440527
+timeaware,history_span_days,Temporal,7,-0.00298185709115506,-0.008202841770474062
+timeaware,history_span_days,Temporal,8,-0.0002596339947443793,0.0036088036579936533
+timeaware,history_span_days,Temporal,9,-0.003469654293402291,-0.008685583028699373
+timeaware,history_span_days,Temporal,10,-0.003210020298657912,-0.0023179417121720614
+timeaware,history_span_days,Temporal,11,-0.002431118314424663,0.004489009413360223
+timeaware,history_span_days,Temporal,12,0.001353243851394903,0.006480358326576147
+timeaware,history_span_days,Temporal,13,-0.0036191405328004356,-0.0030646941945101924
+timeaware,history_span_days,Temporal,14,0.00261994303787505,0.002706926415852684
+timeaware,history_span_days,Temporal,15,-0.003682082107284046,0.00017572130864199065
+timeaware,history_span_days,Temporal,16,-0.004232820884014443,0.003310610308934453
+timeaware,history_span_days,Temporal,17,-0.0008497112555271302,-0.0031291395905284902
+timeaware,history_span_days,Temporal,18,0.002124278138817548,0.003578330679472913
+timeaware,history_span_days,Temporal,19,-0.003092004846501295,-0.005161341363023542
+timeaware,history_span_days,Temporal,20,-0.002793032367704784,0.0005686476824227626
+timeaware,history_span_days,Temporal,21,-0.0032178879954682937,-0.0037088167419316864
+timeaware,history_span_days,Temporal,22,-0.001156551431134134,0.004311928426792094
+timeaware,history_span_days,Temporal,23,-0.0011172129470818914,-0.0040648617707657875
+timeaware,history_span_days,Temporal,24,-0.0036270082296109285,-0.0026552162105820953
+timeaware,history_span_days,Temporal,25,-0.0006844896225079999,-0.0047979150734387965
+timeaware,history_span_days,Temporal,26,-0.00192758571855689,0.00141024730337444
+timeaware,history_span_days,Temporal,27,0.0006530188352661392,-0.0013493648152463067
+timeaware,history_span_days,Temporal,28,-0.0008261081650958735,-0.0033285934439307996
+timeaware,history_span_days,Temporal,29,-0.0015814070588976437,-0.002058652478829276
+timeaware,history_span_days,Temporal,30,-0.004075466947805806,-0.0043535367263106695

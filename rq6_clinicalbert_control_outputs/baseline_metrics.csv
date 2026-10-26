@@ -1,0 +1,2 @@
+model,n_test,n_events,auroc,auprc
+ClinicalBERT Diagnosis-Text Control,1337,103,0.7343629525892591,0.26564516211768824

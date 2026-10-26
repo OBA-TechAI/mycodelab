@@ -1,0 +1,2 @@
+model,n_test,n_events,auroc,auprc
+CEHR-BERT Control,1337,103,0.6834982927097921,0.1269709320830384

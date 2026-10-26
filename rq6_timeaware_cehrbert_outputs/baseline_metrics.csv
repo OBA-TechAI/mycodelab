@@ -1,0 +1,2 @@
+model,n_test,n_events,auroc,auprc
+Time-Aware CEHR-BERT,1337,103,0.6974477191546945,0.1395311960966082

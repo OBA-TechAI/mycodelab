@@ -1,0 +1,2 @@
+model,n_test,n_events,auroc,auprc
+BioBERT Diagnosis-Text Control,1337,103,0.710940819184592,0.20797810036604455

@@ -1,0 +1,2 @@
+model,n_test,n_events,auroc,auprc
+Time-Aware ClinicalBERT Diagnosis-Text,1337,103,0.7391071737659517,0.2539737897634969

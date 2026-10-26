@@ -266,3 +266,10 @@ ethos_env/
 *_predictions_seed*.csv
 final_5seed_all_model_predictions_long_with_ethos.csv
 *_backup.py
+
+# RQ6/RQ7 research archives and reconstructed patient-level outputs
+RQ6_Complete_Research_Files.zip
+*_reconstructed_predictions.csv
+*rq6*predictions*.csv
+*rq7*predictions*.csv
+eicu-crd/

@@ -1,0 +1,2 @@
+model,test_patients,auroc,auprc,max_prediction_difference
+Llama 3.2-3B LoRA Control,1337,0.7546498088149676,0.27765583684754486,1.1102230246251565e-16

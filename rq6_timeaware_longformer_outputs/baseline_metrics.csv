@@ -1,0 +1,2 @@
+model,n_test,n_events,auroc,auprc
+Time-Aware Clinical Longformer Diagnosis-Text,1337,103,0.7331355918868311,0.2578396408801238

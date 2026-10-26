@@ -1,0 +1,2 @@
+model,n_test,n_events,auroc,auprc
+Clinical Longformer Control,1337,103,0.7422227817028842,0.23361966236486445

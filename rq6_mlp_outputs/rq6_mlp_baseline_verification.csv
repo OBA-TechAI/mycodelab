@@ -1,0 +1,2 @@
+model,n_test,dn_events,auroc,auprc,max_prediction_difference,mean_prediction_difference,verified
+MLP,1337,103,0.703970039810546,0.17341862680354822,1.4350051880107628e-07,1.4699429303411243e-08,True

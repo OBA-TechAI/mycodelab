@@ -1,0 +1,2 @@
+model,n_test,n_events,auroc,auprc
+Time-Aware BioBERT Diagnosis-Text,1337,103,0.7238831804377588,0.1801101557463401
